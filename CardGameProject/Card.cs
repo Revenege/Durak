@@ -187,12 +187,12 @@ namespace CardGameProject
                         return true;
                     else //neither card is trumps and thus the play was illegal
                     {
-                        throw new InvalidPlayException();
+                        return false;
                     }
                 }
                 else //otherwise if trumps aren't being used the play was illegal
                 {
-                    throw new InvalidPlayException();
+                    return false;
                 }
             }
         }
@@ -254,12 +254,12 @@ namespace CardGameProject
                         return true;
                     else //neither card is trumps and thus the play was illegal
                     {
-                        throw new InvalidPlayException();
+                        return false;
                     }
                 }
                 else //otherwise if trumps aren't being used the play was illegal
                 {
-                    throw new InvalidPlayException();
+                    return false;
                 }
             }
         }
