@@ -52,5 +52,8 @@
     <Compile Include="Rank.cs" />
     <Compile Include="Suit.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
