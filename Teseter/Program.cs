@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CardGameProject;
 
+
 namespace GameClient
 {
     class Program
@@ -34,11 +35,60 @@ namespace GameClient
             //Creates an array of players. Can be between 2 and 7
             Player[] players = new Player[7];
 
-            //Sets each player in the arary. Each player MUST have a name. 
-            for (int i = 0; i < 7; i++)
+
+            bool ready = false;
+            List<Player> playerList = new List<Player>();
+
+            Console.WriteLine("Enter the name of a new player, or enter \"ready\" to start the game: ");
+
+            //  obtain player names
+            while (!ready)
             {
-                players[i] = new Player("Jimbo Crimbo"+i);
+                Console.Write("Player {0}: " , (playerList.Count + 1));
+                string input = Console.ReadLine();
+
+                //  if name is not empty
+                if (input != string.Empty)
+                {
+                    //  if a new player is added
+                    if (input != "ready")
+                    {
+                        playerList.Add(new Player(input));
+
+                        //  if maximum player count has been reached
+                        if (playerList.Count == Durak.GetMaxPlayers())
+                        {
+                            //  ready to begin
+                            ready = true;
+                        }
+                    }
+                    //  if players want to start game
+                    else
+                    {
+                        //  if minimum player count has been reached
+                        if (playerList.Count >= Durak.GetMinPlayers())
+                        {
+                            //  ready to begin
+                            ready = true;
+                        }
+                        //  if too few players
+                        else
+                        {
+                            Console.WriteLine("you must have at least {0} players to begin.", Durak.GetMinPlayers());
+                        }
+                    }
+                }
+                //  if name was empty
+                else
+                {
+                    Console.WriteLine("You must enter a player name, please try again.");
+                }
             }
+
+
+            //Sets each player in the arary. 
+            players = playerList.ToArray();
+
             //Setting the players. Must be done before starting the game.
             newGame.SetPlayers(players);
             //Starts the game

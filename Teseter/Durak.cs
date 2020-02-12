@@ -111,6 +111,7 @@ namespace GameClient
                 //Generate cards until the max hand size is reached
                 for (int c = 0; c < handSize; c++)
                 {
+                    Console.WriteLine("Dealing card for player " + (p+1));
                     players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
                 }
                 
@@ -152,6 +153,14 @@ namespace GameClient
              * IF THE DECK IS EMPTY, AND A PLAYERS HAND IS EMPTY WHEN THEY GO TO DRAW, THEY WIN
              */
 
+            Random rand = new Random();
+
+            int playerNumber = rand.Next(0, 2);     //  Select a player number, from 0 to numplayers
+
+            Console.WriteLine("Player number " + (playerNumber + 1) + " goes first.");
+
+
+
             /**
              * OPTIONAL: TRANSFERS
              * A TRANSFER OCCURS WHEN A DEFENDING PLAYER MATCHES THE RANK OF THE CURRENTLY PLAYED CARD
@@ -176,6 +185,24 @@ namespace GameClient
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// Returns minimum possible players
+        /// </summary>
+        /// <returns></returns>
+        public static int GetMinPlayers()
+        {
+            return MIN_PLAYERS;
+        }
+
+        /// <summary>
+        /// Returns maxmum possible players
+        /// </summary>
+        /// <returns></returns>
+        public static int GetMaxPlayers()
+        {
+            return MAX_PLAYERS;
         }
     }
 }
