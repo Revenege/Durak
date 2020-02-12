@@ -33,7 +33,7 @@ namespace GameClient
             //Creates a new game of durak, with a given deckSize
             Durak newGame = new Durak(deckSize);
             //Creates an array of players. Can be between 2 and 7
-            Player[] players = new Player[7];
+            Player[] players;
 
 
             bool ready = false;
@@ -84,7 +84,6 @@ namespace GameClient
                     Console.WriteLine("You must enter a player name, please try again.");
                 }
             }
-
 
             //Sets each player in the arary. 
             players = playerList.ToArray();

@@ -111,7 +111,7 @@ namespace GameClient
                 //Generate cards until the max hand size is reached
                 for (int c = 0; c < handSize; c++)
                 {
-                    Console.WriteLine("Dealing card for player " + (p+1));
+                    //Console.WriteLine("Dealing card for player " + (p+1));
                     players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
                 }
                 
@@ -156,8 +156,32 @@ namespace GameClient
             Random rand = new Random();
 
             int playerNumber = rand.Next(0, 2);     //  Select a player number, from 0 to numplayers
+            bool gameRunning = true;
 
-            Console.WriteLine("Player number " + (playerNumber + 1) + " goes first.");
+            Console.WriteLine("\n\n" + players[playerNumber].Name + " goes first.");
+
+            while (gameRunning)
+            {
+                Cards playHand = players[playerNumber].PlayHand;
+                Console.WriteLine(players[playerNumber].Name + "'s hand: \n");
+
+                //  Display player's hand
+                for (int cardIndex = 0; cardIndex < playHand.Count; cardIndex++)
+                {
+                    Console.WriteLine("[{0}]: {1}", cardIndex, playHand[cardIndex]);
+                }
+
+                //  If player has more than 1 card, ask them which one to play
+                if (playHand.Count > 1)
+                {
+                    Console.Write("{0}: Select a card between [0] and [{1}]: ", players[playerNumber].Name, playHand.Count - 1);
+                    Console.ReadLine();
+                }
+                
+                gameRunning = false;    //temp to avoid infinite loop while developing
+            }
+
+
 
 
 
@@ -175,14 +199,14 @@ namespace GameClient
              */
 
             //Displaying all players hands for testing purposes
-            for (int i = 0; i<players.Length;i++)
-            {
-                foreach (Card card in players[i].PlayHand)
-                {
-                    Console.WriteLine(card);
-                }
-                Console.WriteLine();
-            }
+            //for (int i = 0; i<players.Length;i++)
+            //{
+            //    foreach (Card card in players[i].PlayHand)
+            //    {
+            //        Console.WriteLine(card);
+            //    }
+            //    Console.WriteLine();
+            //}
 
             return 0;
         }

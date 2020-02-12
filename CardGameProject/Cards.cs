@@ -41,5 +41,19 @@ namespace CardGameProject
                 targetCards[index] = this[index];
             }
         }
+
+        /// <summary>
+        /// Returns the rank and suit of each card in a collection
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() 
+        {
+            string newString = "";
+            foreach (Card sourceCard in this)
+            {
+                newString += sourceCard.ToString() + "\n";
+            }
+            return newString;
+        }
     }
 }
