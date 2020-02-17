@@ -1,6 +1,6 @@
 ﻿/**
  * The following class represents a player, and there hand
- * Author: Scott Jenkins
+ * Author: Scott Jenkins, Thomas Sinka
  * Date: 2020-02-10
  */
 
@@ -26,11 +26,15 @@ namespace GameClient
         public Cards PlayHand { get; private set; }
 
         /// <summary>
-        /// Default Constructor
+        /// Name used for default constructor
         /// </summary>
-        private Player()
-        {
-        }
+        private const string DEFAULT_NAME = "Undefined_Name";
+
+        /// <summary>
+        /// Default Constructor, calls parameterized 
+        /// constructor and passes default player name
+        /// </summary>
+        public Player() : this(DEFAULT_NAME){}
 
         /// <summary>
         /// Setting a player name with a default hand

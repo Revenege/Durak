@@ -1,6 +1,6 @@
 ﻿/**
  * The following class handles the game logic for the game Durak
- * AUTHOR: Scott Jenkins
+ * AUTHOR: Scott Jenkins, Thomas Sinka
  * Date: 2020-02-10
  */
 
@@ -114,7 +114,6 @@ namespace GameClient
                     //Console.WriteLine("Dealing card for player " + (p+1));
                     players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
                 }
-                
             }
         }
 
@@ -124,16 +123,17 @@ namespace GameClient
         /// <returns></returns>
         public int PlayGame()
         {
+            bool gameRunning = true;
+
             //Sets the trump card to be the top card of the deck
             Card trumpCard = playDeck.GetCard(currentCard);
             Card.trump = trumpCard.suit;
 
-            //Console.WriteLine(trumpCard + "\n");
+            Console.WriteLine("The Trump card is: " + trumpCard + "\n");
+            Players.InitializeGame(players, true);    //  Initialize game, randomize player turn order
 
             //Moves the trump card to the bottom of the deck, per Durak rules
             playDeck.SendToBottom(currentCard);
-            
-            //Console.WriteLine(playDeck.GetCard(playDeck.deckSize-1)+"\n");
             
             //Deals a hand to each player
             DealHands();
@@ -153,37 +153,41 @@ namespace GameClient
              * IF THE DECK IS EMPTY, AND A PLAYERS HAND IS EMPTY WHEN THEY GO TO DRAW, THEY WIN
              */
 
-            Random rand = new Random();
-
-            int playerNumber = rand.Next(0, 2);     //  Select a player number, from 0 to numplayers
-            bool gameRunning = true;
-
-            Console.WriteLine("\n\n" + players[playerNumber].Name + " goes first.");
-
+            Player currentPlayer = Players.GetCurrentPlayer();
+            Console.WriteLine("\n\n" + currentPlayer.Name + " goes first.");
+            
+            //  Each iteration of this loop represents one player's turn
             while (gameRunning)
             {
-                Cards playHand = players[playerNumber].PlayHand;
-                Console.WriteLine(players[playerNumber].Name + "'s hand: \n");
-
+                currentPlayer = Players.GetCurrentPlayer();
+                Cards playHand = currentPlayer.PlayHand;
+                
                 //  Display player's hand
+                Console.WriteLine(currentPlayer.Name + "'s hand: \n");
                 for (int cardIndex = 0; cardIndex < playHand.Count; cardIndex++)
                 {
                     Console.WriteLine("[{0}]: {1}", cardIndex, playHand[cardIndex]);
                 }
 
-                //  If player has more than 1 card, ask them which one to play
-                if (playHand.Count > 1)
+                char input = ' ';
+                Console.WriteLine("Enter \"a\" to attack, or \"s\" to skip turn");
+                while (input != 'a' && input != 'A' && input != 's' && input != 'S')
                 {
-                    Console.Write("{0}: Select a card between [0] and [{1}]: ", players[playerNumber].Name, playHand.Count - 1);
-                    Console.ReadLine();
+                    input = Console.ReadKey().KeyChar;
+                }
+
+                if (input == 'a')
+                {
+                    Attack(currentPlayer);
+                    Players.EndTurn();    //  It is now the next player's turn
+                }
+                else if (input == 's')
+                {
+                    Players.EndTurn();
                 }
                 
                 gameRunning = false;    //temp to avoid infinite loop while developing
             }
-
-
-
-
 
             /**
              * OPTIONAL: TRANSFERS
@@ -198,17 +202,74 @@ namespace GameClient
              * DUE TO RELATIVE COMPLEXITY, EITHER MULTIPLE PLAYERS OR TRANSERS SHOULD BE IMPLEMENTED, BUT NOT BOTH.
              */
 
-            //Displaying all players hands for testing purposes
-            //for (int i = 0; i<players.Length;i++)
-            //{
-            //    foreach (Card card in players[i].PlayHand)
-            //    {
-            //        Console.WriteLine(card);
-            //    }
-            //    Console.WriteLine();
-            //}
-
             return 0;
+        }
+
+        public void Attack(Player attacker)
+        {
+            Player defendingPlayer = Players.PeakNextPlayer();  //  The player who goes after current player must defend
+
+            Cards playHand = attacker.PlayHand;
+            Card selectedCard;
+
+
+            //  If player has 1 or more cards, ask them which one to play
+            if (playHand.Count > 0)
+            {
+                Console.Write("\n{0}: Select a card between [0] and [{1}]: ", attacker.Name, playHand.Count - 1);
+                int selection = ValidateIntSelection(0, playHand.Count - 1);
+                selectedCard = playHand[selection];
+                Console.WriteLine("{0} played {1}", attacker.Name, selectedCard.ToString());
+            }
+        }
+
+        /// <summary>
+        /// A Player defending against an attacking Player
+        /// </summary>
+        /// <param name="attacker">Attacking Player</param>
+        /// <param name="Defender">Defending Player</param>
+        public void Defend(Player attacker, Player Defender)
+        {
+
+        }
+
+        public void ThrowIn(Player attacker)
+        {
+
+        }
+
+        /// <summary>
+        /// Prompts user for an int input and validates it within a range.
+        /// </summary>
+        /// <param name="min">Minimum value</param>
+        /// <param name="max">Maximum value</param>
+        /// <returns></returns>
+        private int ValidateIntSelection(int min, int max)
+        {
+            string inputString = string.Empty;
+            int inputParsed = 0;
+            bool success = false;
+            while (!success)
+            {
+                inputString = Console.ReadLine();
+
+                if (int.TryParse(inputString, out inputParsed))
+                {
+                    if (inputParsed < min || inputParsed > max)
+                    {
+                        Console.WriteLine("The selection must be between {0} and {1}: ", min, max);
+                    }
+                    else
+                    {
+                        success = true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("You must enter a number between {0} and {1}: ", min, max);
+                }
+            }
+            return inputParsed;
         }
 
         /// <summary>

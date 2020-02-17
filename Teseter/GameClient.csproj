@@ -44,7 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Durak.cs" />
+    <Compile Include="DurakTable.cs" />
+    <Compile Include="InvalidPlayerCount.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Players.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
