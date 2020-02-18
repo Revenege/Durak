@@ -90,6 +90,18 @@ namespace GameClient
             players = newPlayers;
         }
 
+        public void DrawCard(Player currentHand)
+        {
+            Card draw = playDeck.GetCard(0);
+            if (currentHand.PlayHand.Count< MAX_HAND_SIZE)
+            {
+                currentHand.PlayHand.Add(draw);
+                //Console.WriteLine(draw);
+                playDeck.RemoveCard(0);
+                //Console.WriteLine(playDeck.GetCard(0));
+            }
+        }
+
         /// <summary>
         /// Deals a hand to each player
         /// </summary>
