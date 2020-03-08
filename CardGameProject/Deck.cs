@@ -26,7 +26,7 @@ namespace CardGameProject
         /// <summary>
         /// The size of the deck
         /// </summary>
-        public readonly int deckSize;
+        public int deckSize;
         
         /// <summary>
         /// Clones a copy of the deck
@@ -143,6 +143,12 @@ namespace CardGameProject
             Card.trump = trump;
         }
 
+        public void RemoveCard(int cardNum)
+        {
+            cards.Remove(GetCard(cardNum));
+            deckSize = cards.Count();
+        }
+
         /// <summary>
         /// Returns the card at the given number
         /// </summary>
@@ -165,6 +171,7 @@ namespace CardGameProject
             else//otherwise, the card requested is outside the bounds of the deck
                 throw new CardOutOfRangeException(cards.Clone() as Cards, deckSize);
         }
+
 
         public void SendToBottom(int cardNum)
         {

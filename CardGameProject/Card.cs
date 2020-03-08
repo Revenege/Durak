@@ -160,7 +160,7 @@ namespace CardGameProject
                         else
                             return true;
                     }
-                    else //otherwise
+                    else //otherwiseha
                     {
                         //check if second card is an ace. If it is, return false.
                         //Otherwise, check if the rank of the first card is higher than the second

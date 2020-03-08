@@ -26,9 +26,10 @@ namespace GameClient
              */
 
             //Decksize for durak. must be 20,36, or 52
-            int deckSize = 20;
+            int deckSize = 36;
             //Creates a new game of durak, with a given deckSize
             Durak newGame = new Durak(deckSize);
+
             //Creates an array of players. Can be between 2 and 7
             Player[] players;
 
@@ -90,6 +91,7 @@ namespace GameClient
 
             //Setting the players. Must be done before starting the game.
             newGame.SetPlayers(players);
+
             //Starts the game
             newGame.PlayGame();
 
