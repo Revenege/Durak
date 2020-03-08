@@ -123,8 +123,9 @@ namespace GameClient
                 //Generate cards until the max hand size is reached
                 for (int c = 0; c < handSize; c++)
                 {
-                    //Console.WriteLine("Dealing card for player " + (p+1));
-                    players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
+                    //Console.WriteLine("Dealing card for player " + (p+1)); //TESTING
+                    DrawCard(players[p]);
+                    //Console.WriteLine("Cards in deck :"+ playDeck.deckSize); //TESTING
                 }
             }
         }
