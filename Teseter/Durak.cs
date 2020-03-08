@@ -95,7 +95,7 @@ namespace GameClient
         /// </summary>
         private void DealHands()
         {
-            int handSize = 0;
+            int handSize = 12;
             //Divide the decksize by the number of players. Used to determine the max hand size for small deck games with many players
             //For example, in a 36 card game with 7 players, in order to keep the starting hand sizes the same we divide 36/7 and round down, to 5.
             handSize = playDeck.deckSize / players.Length;
@@ -106,13 +106,37 @@ namespace GameClient
             }
 
             //For each player in the array,
-            for (int p = 0; p < players.Length; p++)
+
+            /**
+             * NOTE: THIS WILL CURRENTLY KEEP ADDING CARDS TO ONE PLAYER UNTIL THEIR HAND IS FULL
+             * AND IF THE DECK RUNS OUT, A SINGLE PLAYER COULD UNFAIRLY RECIEVE MORE CARDS THAN OTHERS
+             * OR EVEN ALL OF THE REMAINING CARDS
+             * The proper mechanic would be to distribute cards to each player 1 by 1 until 
+             * either their hands are full or there are no remaining cards.
+             */
+
+            bool handsFull = false; //  a flag that indicates that all player's hands are full
+                
+            //Generate cards until the max hand size is reached or the deck runs out of cards
+            while (playDeck.RemainingCardCount() > 0 && handsFull == false)
             {
-                //Generate cards until the max hand size is reached
-                for (int c = 0; c < handSize; c++)
+
+                handsFull = true;
+                for (int p = 0; p < players.Length; p++)
                 {
-                    //Console.WriteLine("Dealing card for player " + (p+1));
-                    players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
+                    if (players[p].PlayHand.Count < handSize)
+                    {
+                        
+                        Console.WriteLine("dealing card for player " + (p+1));
+                        players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
+
+                        Console.WriteLine("Cards remaining in deck: " + playDeck.RemainingCardCount());
+
+                    }
+                    if (players[p].PlayHand.Count < handSize)
+                    {
+                        handsFull = false;
+                    }
                 }
             }
         }
@@ -153,41 +177,140 @@ namespace GameClient
              * IF THE DECK IS EMPTY, AND A PLAYERS HAND IS EMPTY WHEN THEY GO TO DRAW, THEY WIN
              */
 
-            Player currentPlayer = Players.GetCurrentPlayer();
-            Console.WriteLine("\n\n" + currentPlayer.Name + " goes first.");
+            /**
+            currentPlayer = Players.GetCurrentPlayer();
+            Cards playHand = currentPlayer.PlayHand;
             
-            //  Each iteration of this loop represents one player's turn
-            while (gameRunning)
+            //  Display player's hand
+            Console.WriteLine(currentPlayer.Name + "'s hand: \n");
+            for (int cardIndex = 0; cardIndex < playHand.Count; cardIndex++)
             {
-                currentPlayer = Players.GetCurrentPlayer();
-                Cards playHand = currentPlayer.PlayHand;
-                
-                //  Display player's hand
-                Console.WriteLine(currentPlayer.Name + "'s hand: \n");
-                for (int cardIndex = 0; cardIndex < playHand.Count; cardIndex++)
-                {
-                    Console.WriteLine("[{0}]: {1}", cardIndex, playHand[cardIndex]);
-                }
-
-                char input = ' ';
-                Console.WriteLine("Enter \"a\" to attack, or \"s\" to skip turn");
-                while (input != 'a' && input != 'A' && input != 's' && input != 'S')
-                {
-                    input = Console.ReadKey().KeyChar;
-                }
-
-                if (input == 'a')
-                {
-                    Attack(currentPlayer);
-                    Players.EndTurn();    //  It is now the next player's turn
-                }
-                else if (input == 's')
-                {
-                    Players.EndTurn();
-                }
-                
-                gameRunning = false;    //temp to avoid infinite loop while developing
+                Console.WriteLine("[{0}]: {1}", cardIndex, playHand[cardIndex]);
             }
+
+            char input = ' ';
+            Console.WriteLine("Enter \"a\" to attack, or \"s\" to skip turn");
+            while (input != 'a' && input != 'A' && input != 's' && input != 'S')
+            {
+                input = Console.ReadKey().KeyChar;
+            }
+
+            if (input == 'a')
+            {
+                Attack(currentPlayer);
+                Players.EndTurn();    //  It is now the next player's turn
+            }
+            else if (input == 's')
+            {
+                Players.EndTurn();
+            }
+            **/
+
+            /*
+            //  The gameplay logic:
+
+            //loop until one player has no more cards
+                //Next player in turn order becomes the attacker
+                //Attacker Attack?
+                //yes
+                    //loop until attacker ends turn or defender ends turn
+                        //Defender defend?
+                        //yes
+                            //successful defend?
+                            //yes
+                                //attacker throw in?
+                                //yes
+                                    //play another card
+                                //no
+                                    //player ends attack
+                            //no
+                                //defender loses
+                        //no
+                            //defender takes cards
+                    //if defender failed to defend
+                        //defender skips next turn
+                //no
+                    //attacker ends turn
+            */
+
+            Player attacker = Players.GetCurrentPlayer();   //  Determine attacker
+            Player defender = Players.PeakNextPlayer();     //  Determine defender
+            bool attackFinished = false;
+            char userInput = ' ';
+
+            Console.WriteLine("\n\n" + attacker.Name + " goes first.");
+
+            //loop until one player has no more cards
+            while (gameRunning) {
+                //Next player in turn order becomes the attacker
+                attacker = Players.GetCurrentPlayer();
+
+                attackFinished = false;
+
+                //Attacker Attack?
+                while (userInput != 'a' && userInput != 'A' && userInput != 's' && userInput != 'S')
+                {
+                    ShowHand(attacker);
+                    Console.WriteLine(attacker.Name + ": Press \'a\' to attack, or \'s\' to skip: ");
+                    userInput = Console.ReadKey().KeyChar;
+                }
+                //yes
+                if (userInput == 'a' || userInput == 'A')
+                {
+                    Attack(attacker);
+                    //loop until attacker ends turn or defender ends turn
+                    while (!attackFinished) { 
+                        //Defender defend?
+                        while (userInput != 'd' && userInput != 'D' && userInput != 't' && userInput != 'T')
+                        {
+                            ShowHand(defender);
+                            Console.WriteLine(defender.Name + ": Press \'d\' to defend, or \'t\' to take cards: ");
+                            userInput = Console.ReadKey().KeyChar;
+                        }
+                        //yes
+                        if (userInput == 'd' || userInput == 'D')
+                        {
+                            bool successfulDefend = Defend(defender);
+                            //successful defend?
+                            if (successfulDefend)
+                            {
+                                //attacker throw in?
+                                while (userInput != 't' && userInput != 'T' && userInput != 'e' && userInput != 'E')
+                                {
+                                    Console.WriteLine(attacker.Name + ": Press \'t\' to throw in, or \'e\' to end attack: ");
+                                    userInput = Console.ReadKey().KeyChar;
+                                }
+                                //yes
+                                if(userInput == 't' || userInput == 'T')
+                                {
+                                    //attacker play another card
+                                    ThrowIn(attacker);
+                                }
+                                //no
+                                else
+                                {
+                                    //player ends attack
+                                    attackFinished = true;
+                                }
+                            }
+                        }
+                        //no
+                        else
+                        {
+                            //defender takes cards
+                        }
+                    }
+                    //if defender failed to defend
+                        //defender skips next turn
+                }
+                //no
+                else
+                {
+                    //attacker ends turn
+                    attackFinished = true;
+                }
+            }
+            gameRunning = false;    //temp to avoid infinite loop while developing
 
             /**
              * OPTIONAL: TRANSFERS
@@ -207,35 +330,63 @@ namespace GameClient
 
         public void Attack(Player attacker)
         {
-            Player defendingPlayer = Players.PeakNextPlayer();  //  The player who goes after current player must defend
-
             Cards playHand = attacker.PlayHand;
             Card selectedCard;
 
-
             //  If player has 1 or more cards, ask them which one to play
-            if (playHand.Count > 0)
-            {
-                Console.Write("\n{0}: Select a card between [0] and [{1}]: ", attacker.Name, playHand.Count - 1);
-                int selection = ValidateIntSelection(0, playHand.Count - 1);
-                selectedCard = playHand[selection];
-                Console.WriteLine("{0} played {1}", attacker.Name, selectedCard.ToString());
-            }
+            Console.Write("\n{0}: Select a card between [0] and [{1}]: ", attacker.Name, playHand.Count - 1);
+            int selection = ValidateIntSelection(0, playHand.Count - 1);
+            selectedCard = playHand[selection];
+            Console.WriteLine("{0} played {1}", attacker.Name, selectedCard.ToString());
         }
 
         /// <summary>
-        /// A Player defending against an attacking Player
+        /// A Player defending against the cards on the table
         /// </summary>
-        /// <param name="attacker">Attacking Player</param>
         /// <param name="Defender">Defending Player</param>
-        public void Defend(Player attacker, Player Defender)
+        public bool Defend(Player defender)
+        {
+            Cards playHand = defender.PlayHand;
+            Card selectedCard;
+
+            Console.Write("\n{0}: Select a card between [0] and [{1}]: ", defender.Name, playHand.Count - 1);
+            int selection = ValidateIntSelection(0, playHand.Count - 1);
+            selectedCard = playHand[selection];
+            Console.WriteLine("{0} played {1}", defender.Name, selectedCard.ToString());
+
+            bool successfulDefend = false;
+
+            return successfulDefend;
+        }
+
+        /// <summary>
+        /// Allows attacker to attack with another card after defender defends
+        /// </summary>
+        /// <param name="attacker"></param>
+        public void ThrowIn(Player attacker)
         {
 
         }
 
-        public void ThrowIn(Player attacker)
-        {
+        /// <summary>
+        /// The defender can choose to not defend, and take the cards on the table instead
+        /// </summary>
+        public void TakeCards() { 
+            //  TODO: Take cards from deck and put in defending player's hand
+            
+        
+        }
 
+        /// <summary>
+        /// Show the cards in a Player's hand
+        /// </summary>
+        private void ShowHand(Player player) 
+        {
+            Console.WriteLine(player.Name + "'s hand: \n");
+            for (int cardIndex = 0; cardIndex < player.PlayHand.Count; cardIndex++)
+            {
+                Console.WriteLine("[{0}]: {1}", cardIndex, player.PlayHand[cardIndex]);
+            }
         }
 
         /// <summary>

@@ -56,5 +56,11 @@ namespace GameClient
         {
             return false;
         }
+
+        /**
+         * TODO: Add IsAI() property which will be used in the future in the gameplay logic
+         * to check if a human will be making decisions in the Player's turn, or if an AI 
+         * will automatically perform that Player's turn
+         */
     }
 }

@@ -205,5 +205,14 @@ namespace CardGameProject
             newDeck.CopyTo(cards);
         }
 
+        /// <summary>
+        /// Returns the number of cards remaining in the deck
+        /// </summary>
+        /// <returns>Number of cards in deck</returns>
+        public int RemainingCardCount()
+        {
+            return cards.Count;
+        }
+
     }
 }
