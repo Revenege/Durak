@@ -42,11 +42,11 @@ namespace GameClient
         /// <summary>
         /// Max players in a Durak Game 
         /// </summary>
-        private const int MAX_PLAYERS = 7;
+        private const int MAX_PLAYERS = 7; 
         /// <summary>
         /// Minimium number of players in a Durak Game
         /// </summary>
-        private const int MIN_PLAYERS = 2;
+        private const int MIN_PLAYERS = 2; 
 
         /// <summary>
         /// Default Constructor
@@ -80,7 +80,7 @@ namespace GameClient
             //If not enough players, throw an error
             if (newPlayers.Length < MIN_PLAYERS)
                 throw new ArgumentException(
-                   "A minimum of " + MIN_PLAYERS + " players may play this game.");
+                   "A minimum of "+MIN_PLAYERS+" players may play this game.");
 
             //if too many players, throw an error
             if (newPlayers.Length > MAX_PLAYERS)
@@ -93,7 +93,7 @@ namespace GameClient
         public void DrawCard(Player currentHand)
         {
             Card draw = playDeck.GetCard(0);
-            if (currentHand.PlayHand.Count < MAX_HAND_SIZE)
+            if (currentHand.PlayHand.Count< MAX_HAND_SIZE)
             {
                 currentHand.PlayHand.Add(draw);
                 //Console.WriteLine(draw);
@@ -107,7 +107,7 @@ namespace GameClient
         /// </summary>
         private void DealHands()
         {
-            int handSize;
+            int handSize = 12;
             //Divide the decksize by the number of players. Used to determine the max hand size for small deck games with many players
             //For example, in a 36 card game with 7 players, in order to keep the starting hand sizes the same we divide 36/7 and round down, to 5.
             handSize = playDeck.deckSize / players.Length;
@@ -117,24 +117,14 @@ namespace GameClient
                 handSize = MAX_HAND_SIZE;
             }
 
-            bool handsFull = false; //  a flag that indicates that all player's hands are full
-
-            //Generate cards until the max hand size is reached or the deck runs out of cards
-            while (playDeck.RemainingCardCount() > 0 && handsFull == false)
+            //For each player in the array,
+            for (int p = 0; p < players.Length; p++)
             {
-                handsFull = true;
-                for (int p = 0; p < players.Length; p++)
+                //Generate cards until the max hand size is reached
+                for (int c = 0; c < handSize; c++)
                 {
-                    if (players[p].PlayHand.Count < handSize)
-                    {
-                        //Console.WriteLine("dealing card for player " + (p+1));
-                        DrawCard(players[p]);
-                        //Console.WriteLine("Cards remaining in deck: " + playDeck.RemainingCardCount());
-                    }
-                    if (players[p].PlayHand.Count < handSize)
-                    {
-                        handsFull = false;
-                    }
+                    //Console.WriteLine("Dealing card for player " + (p+1));
+                    players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
                 }
             }
         }
@@ -156,7 +146,7 @@ namespace GameClient
 
             //Moves the trump card to the bottom of the deck, per Durak rules
             playDeck.SendToBottom(currentCard);
-
+            
             //Deals a hand to each player
             DealHands();
             /**
@@ -239,8 +229,7 @@ namespace GameClient
             Console.WriteLine("\n\n" + attacker.Name + " goes first.");
 
             //loop until one player has no more cards
-            while (gameRunning)
-            {
+            while (gameRunning) {
                 //Next player in turn order becomes the attacker
                 attacker = Players.GetCurrentPlayer();
 
@@ -258,8 +247,7 @@ namespace GameClient
                 {
                     Attack(attacker);
                     //loop until attacker ends turn or defender ends turn
-                    while (!attackFinished)
-                    {
+                    while (!attackFinished) { 
                         //Defender defend?
                         while (userInput != 'd' && userInput != 'D' && userInput != 't' && userInput != 'T')
                         {
@@ -281,7 +269,7 @@ namespace GameClient
                                     userInput = Console.ReadKey().KeyChar;
                                 }
                                 //yes
-                                if (userInput == 't' || userInput == 'T')
+                                if(userInput == 't' || userInput == 'T')
                                 {
                                     //attacker play another card
                                     ThrowIn(attacker);
@@ -301,7 +289,7 @@ namespace GameClient
                         }
                     }
                     //if defender failed to defend
-                    //defender skips next turn
+                        //defender skips next turn
                 }
                 //no
                 else
@@ -371,17 +359,16 @@ namespace GameClient
         /// <summary>
         /// The defender can choose to not defend, and take the cards on the table instead
         /// </summary>
-        public void TakeCards()
-        {
+        public void TakeCards() { 
             //  TODO: Take cards from deck and put in defending player's hand
-
-
+            
+        
         }
 
         /// <summary>
         /// Show the cards in a Player's hand
         /// </summary>
-        private void ShowHand(Player player)
+        private void ShowHand(Player player) 
         {
             Console.WriteLine(player.Name + "'s hand: \n");
             for (int cardIndex = 0; cardIndex < player.PlayHand.Count; cardIndex++)
