@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,11 +50,74 @@
     <Compile Include="InvalidDeckSizeException.cs" />
     <Compile Include="InvalidPlayException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Rank.cs" />
     <Compile Include="Suit.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
+    <None Include="Resources\QS.png" />
+    <None Include="Resources\QH.png" />
+    <None Include="Resources\QD.png" />
+    <None Include="Resources\QC.png" />
+    <None Include="Resources\KS.png" />
+    <None Include="Resources\KH.png" />
+    <None Include="Resources\KD.png" />
+    <None Include="Resources\KC.png" />
+    <None Include="Resources\JS.png" />
+    <None Include="Resources\JH.png" />
+    <None Include="Resources\JD.png" />
+    <None Include="Resources\JC.png" />
+    <None Include="Resources\Back.png" />
+    <None Include="Resources\AS.png" />
+    <None Include="Resources\AH.png" />
+    <None Include="Resources\AD.png" />
+    <None Include="Resources\AC.png" />
+    <None Include="Resources\10S.png" />
+    <None Include="Resources\10H.png" />
+    <None Include="Resources\10D.png" />
+    <None Include="Resources\10C.png" />
+    <None Include="Resources\9S.png" />
+    <None Include="Resources\9H.png" />
+    <None Include="Resources\9D.png" />
+    <None Include="Resources\9C.png" />
+    <None Include="Resources\8S.png" />
+    <None Include="Resources\8H.png" />
+    <None Include="Resources\8D.png" />
+    <None Include="Resources\8C.png" />
+    <None Include="Resources\7S.png" />
+    <None Include="Resources\7H.png" />
+    <None Include="Resources\7D.png" />
+    <None Include="Resources\7C.png" />
+    <None Include="Resources\6S.png" />
+    <None Include="Resources\6H.png" />
+    <None Include="Resources\6D.png" />
+    <None Include="Resources\6C.png" />
+    <None Include="Resources\5S.png" />
+    <None Include="Resources\5H.png" />
+    <None Include="Resources\5D.png" />
+    <None Include="Resources\5C.png" />
+    <None Include="Resources\4S.png" />
+    <None Include="Resources\4H.png" />
+    <None Include="Resources\4D.png" />
+    <None Include="Resources\4C.png" />
+    <None Include="Resources\3S.png" />
+    <None Include="Resources\3H.png" />
+    <None Include="Resources\3D.png" />
+    <None Include="Resources\3C.png" />
+    <None Include="Resources\2S.png" />
+    <None Include="Resources\2H.png" />
+    <None Include="Resources\2D.png" />
+    <None Include="Resources\2C.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

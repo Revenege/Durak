@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+
 /// <summary>
 /// Represent Card Object
 /// Author: Scott Jenkins
@@ -9,7 +11,7 @@ using System.Text;
 /// </summary>
 namespace CardGameProject
 {
-    public class Card :ICloneable
+    public class Card : ICloneable
     {
         #region MEMBER VARIABLES
         /// <summary>
@@ -30,19 +32,24 @@ namespace CardGameProject
         public static bool isAceHigh = true;
 
         /// <summary>
+        /// Flag that determines whether the card is face up or face down.
+        /// </summary>
+        public bool isFaceUp;
+
+        /// <summary>
         /// Stores the suit of the card
         /// </summary>
-        public readonly Suit suit;
-        
+        public Suit suit;
+
         /// <summary>
         /// Stores the rank of the card
         /// </summary>
-        public readonly Rank rank;
+        public Rank rank;
 
         /// <summary>
         /// Stores a shortform of the card consisting of the first letter of the suit, and the number or first letter of the rank
         /// </summary>
-        public readonly string shortForm="";
+        public string shortForm = "";
         #endregion VARIABLES
 
 
@@ -50,8 +57,12 @@ namespace CardGameProject
         /// <summary>
         /// Default Constructor
         /// </summary>
-        private Card()
+        public Card()
         {
+            suit = Suit.Club;
+            rank = Rank.Ace;
+            isFaceUp = false;
+            makeShortForm();
         }
 
 
@@ -60,40 +71,17 @@ namespace CardGameProject
         /// </summary>
         /// <param name="newSuit">Desired suit</param>
         /// <param name="newRank">Desired rank</param>
-        public Card(Suit newSuit, Rank newRank)
+        public Card(Suit newSuit, Rank newRank, Boolean faceUp)
         {
             suit = newSuit;
             rank = newRank;
-            int value = (int)rank;
-            value += 1;
-            //Creates a shortform for the purposes of logging
-            shortForm += suit.ToString()[0];
-            if (value > 10)
-            {
-                switch (value)
-                {
-                    case 11:
-                        shortForm += "J";
-                        break;
-                    case 12:
-                        shortForm += "Q";
-                        break;
-                    case 13:
-                        shortForm += "K";
-                        break;
-                    case 14:
-                        shortForm += "A";
-                        break;
-                }
-            }
-            else
-            {
-                shortForm += value;
-            }
+            isFaceUp = faceUp;
+            makeShortForm();
         }
         #endregion
 
         #region OPERATOR OVERLOADS
+
 
         /// <summary>
         /// Overrides the equality operator, checking if there rank and suit are the same
@@ -215,7 +203,7 @@ namespace CardGameProject
         /// <param name="card2">Second card to check</param>
         /// <returns>True if the cards are equal, or the First card is greater. False otherwise</returns>
         public static bool operator >=(Card card1, Card card2)
-        {   
+        {
             //check if the suits are the same
             if (card1.suit == card2.suit)
             {
@@ -293,7 +281,80 @@ namespace CardGameProject
         /// <returns>Formatted string with card info</returns>
         public override string ToString()
         {
-            return "The " + rank + " of " + suit + "s";
+            if (isFaceUp)
+            {
+                return "The " + rank + " of " + suit + "s";
+            }
+            else
+            {
+                return "Face Down";
+            }
+        }
+
+        public void flip()
+        {
+            isFaceUp = !isFaceUp;
+        }
+
+        private void makeShortForm()
+        {
+            int value = (int)rank;
+            string shortSuit = "";
+            shortSuit = suit.ToString();
+            string rankName = "";
+
+            if (value > 10)
+            {
+                switch (value)
+                {
+                    case 11:
+                        rankName = "J";
+                        break;
+                    case 12:
+                        rankName = "Q";
+                        break;
+                    case 13:
+                        rankName = "K";
+                        break;
+                }
+            }
+            else if ( value == 1)
+            {
+                rankName = "A";
+            }
+            else
+            {
+                rankName = value.ToString();
+            }
+            shortForm = rankName + shortSuit[0];
+        }
+        public bool Facing
+        {
+            set 
+            {
+                isFaceUp = value;
+            }
+        }
+
+        public Image GetCardImage()
+        {
+            string imageName;
+            Image cardImage = null;
+
+            if (isFaceUp == false)
+            {
+                imageName = "Back";
+            }
+            else
+            {
+                makeShortForm();
+                imageName = shortForm;
+            }
+
+            cardImage = Properties.Resources.ResourceManager.GetObject(imageName) as Image;
+
+            return cardImage;
+
         }
         #endregion
     }
