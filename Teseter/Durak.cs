@@ -35,6 +35,11 @@ namespace GameClient
         private Cards discardedCards;
 
         /// <summary>
+        /// Cards in play and in discard go here
+        /// </summary>
+        DurakTable table = new DurakTable();
+
+        /// <summary>
         /// Max hand size is a standard game of durak
         /// </summary>
         private const int MAX_HAND_SIZE = 6;
@@ -92,13 +97,17 @@ namespace GameClient
 
         public void DrawCard(Player currentHand)
         {
-            Card draw = playDeck.GetCard(0);
-            if (currentHand.PlayHand.Count< MAX_HAND_SIZE)
+            if (playDeck.RemainingCardCount() > 0)
             {
-                currentHand.PlayHand.Add(draw);
-                //Console.WriteLine(draw);
-                playDeck.RemoveCard(0);
-                //Console.WriteLine(playDeck.GetCard(0));
+                Card draw = playDeck.GetCard(0);
+                if (currentHand.PlayHand.Count < MAX_HAND_SIZE)
+                {
+                        currentHand.PlayHand.Add(draw);
+                        //Console.WriteLine(draw);
+                        playDeck.RemoveCard(0);
+                        //Console.WriteLine(playDeck.RemainingCardCount());
+                        //Console.WriteLine(playDeck.GetCard(0));
+                }
             }
         }
 
@@ -107,7 +116,7 @@ namespace GameClient
         /// </summary>
         private void DealHands()
         {
-            int handSize = 12;
+            int handSize = 0;
             //Divide the decksize by the number of players. Used to determine the max hand size for small deck games with many players
             //For example, in a 36 card game with 7 players, in order to keep the starting hand sizes the same we divide 36/7 and round down, to 5.
             handSize = playDeck.deckSize / players.Length;
@@ -123,8 +132,7 @@ namespace GameClient
                 //Generate cards until the max hand size is reached
                 for (int c = 0; c < handSize; c++)
                 {
-                    //Console.WriteLine("Dealing card for player " + (p+1));
-                    players[p].PlayHand.Add(playDeck.GetCard(currentCard++));
+                    DrawCard(players[p]);
                 }
             }
         }
@@ -141,7 +149,6 @@ namespace GameClient
             Card trumpCard = playDeck.GetCard(currentCard);
             Card.trump = trumpCard.suit;
 
-            Console.WriteLine("The Trump card is: " + trumpCard + "\n");
             Players.InitializeGame(players, true);    //  Initialize game, randomize player turn order
 
             //Moves the trump card to the bottom of the deck, per Durak rules
@@ -149,6 +156,8 @@ namespace GameClient
             
             //Deals a hand to each player
             DealHands();
+
+
             /**
              * TODO: ADD GAME LOGIC
              * DETERMINE WHO GOES FIRST RANDOMLY
@@ -224,16 +233,21 @@ namespace GameClient
             Player attacker = Players.GetCurrentPlayer();   //  Determine attacker
             Player defender = Players.PeakNextPlayer();     //  Determine defender
             bool attackFinished = false;
+            bool successfulDefend = false;
             char userInput = ' ';
-
             Console.WriteLine("\n\n" + attacker.Name + " goes first.");
+            Player theDurak = new Player();
 
             //loop until one player has no more cards
             while (gameRunning) {
                 //Next player in turn order becomes the attacker
                 attacker = Players.GetCurrentPlayer();
-
+                //determines if the game has ended
+                int winnerCount = 0;
                 attackFinished = false;
+
+                Console.WriteLine("The Trump Suit is: " + trumpCard.suit + "\n");
+                Console.WriteLine("There are " + playDeck.RemainingCardCount()+ " remaining");
 
                 //Attacker Attack?
                 while (userInput != 'a' && userInput != 'A' && userInput != 's' && userInput != 'S')
@@ -247,7 +261,8 @@ namespace GameClient
                 {
                     Attack(attacker);
                     //loop until attacker ends turn or defender ends turn
-                    while (!attackFinished) { 
+                    while (!attackFinished)
+                    { 
                         //Defender defend?
                         while (userInput != 'd' && userInput != 'D' && userInput != 't' && userInput != 'T')
                         {
@@ -258,38 +273,59 @@ namespace GameClient
                         //yes
                         if (userInput == 'd' || userInput == 'D')
                         {
-                            bool successfulDefend = Defend(defender);
-                            //successful defend?
-                            if (successfulDefend)
+                            bool correctInput = false;
+                            //ensure valid play. NOTE: if the play CAN'T actually defend, this will trap them in a hellish infinite loop
+                            //However since this text game is purely for testing, we wont be fixing it as it wont exist in the main game.
+                            while (correctInput == false)
                             {
-                                //attacker throw in?
-                                while (userInput != 't' && userInput != 'T' && userInput != 'e' && userInput != 'E')
-                                {
-                                    Console.WriteLine(attacker.Name + ": Press \'t\' to throw in, or \'e\' to end attack: ");
-                                    userInput = Console.ReadKey().KeyChar;
-                                }
-                                //yes
-                                if(userInput == 't' || userInput == 'T')
-                                {
-                                    //attacker play another card
-                                    ThrowIn(attacker);
-                                }
-                                //no
-                                else
-                                {
-                                    //player ends attack
-                                    attackFinished = true;
-                                }
+                                correctInput = Defend(defender);
                             }
+                            successfulDefend = true;
+                            attackFinished = true;
+                            ////attacker throw in? Commented out until further clarification.
+                            //while (userInput != 't' && userInput != 'T' && userInput != 'e' && userInput != 'E')
+                            //{
+                            //    Console.WriteLine(attacker.Name + ": Press \'t\' to throw in, or \'e\' to end attack: ");
+                            //    userInput = Console.ReadKey().KeyChar;
+                            //}
+                            ////yes
+                            //if(userInput == 't' || userInput == 'T')
+                            //{
+                            //    //attacker play another card
+                            //    ThrowIn(attacker);
+                            //}
+                            ////no
+                            //else
+                            //{
+                            //    //player ends attack
+                            //    attackFinished = true;
+                            //}
+                            
                         }
                         //no
                         else
                         {
                             //defender takes cards
+                            TakeCards(defender);
+                            attackFinished = true;
+                            successfulDefend = false;
                         }
+                    }//attack ends here
+
+                    //draw up to 7
+                    DrawToMax(players);
+                    if (successfulDefend)
+                    {   
+                        attacker = Players.GetNextPlayer();
+                        defender = Players.PeakNextPlayer();
                     }
-                    //if defender failed to defend
-                        //defender skips next turn
+                    else
+                    {
+                        Players.SkipTurn();
+                        attacker = Players.GetNextPlayer();
+                        defender = Players.PeakNextPlayer();
+                    }
+
                 }
                 //no
                 else
@@ -297,8 +333,30 @@ namespace GameClient
                     //attacker ends turn
                     attackFinished = true;
                 }
+             
+                foreach (Player player in players)
+                {
+                    DetermineWinner(player);
+                    if (player.WinStatus == true)
+                    {
+                        winnerCount++;
+                    }
+                }
+                if (winnerCount== players.Count() -1)
+                {
+                    foreach (Player player in players)
+                    {
+                        if (player.WinStatus == false)
+                        {
+                            theDurak = player;
+                        }
+                    }
+                    gameRunning = false;
+                }
+
             }
-            gameRunning = false;    //temp to avoid infinite loop while developing
+
+            Console.Out.WriteLine(theDurak.Name +" is the Durak! Better luck next Time");
 
             /**
              * OPTIONAL: TRANSFERS
@@ -325,6 +383,8 @@ namespace GameClient
             Console.Write("\n{0}: Select a card between [0] and [{1}]: ", attacker.Name, playHand.Count - 1);
             int selection = ValidateIntSelection(0, playHand.Count - 1);
             selectedCard = playHand[selection];
+            playHand.Remove(selectedCard);
+            table.InPlay.Add(selectedCard);
             Console.WriteLine("{0} played {1}", attacker.Name, selectedCard.ToString());
         }
 
@@ -334,15 +394,31 @@ namespace GameClient
         /// <param name="Defender">Defending Player</param>
         public bool Defend(Player defender)
         {
+            //variable declarations
             Cards playHand = defender.PlayHand;
             Card selectedCard;
-
-            Console.Write("\n{0}: Select a card between [0] and [{1}]: ", defender.Name, playHand.Count - 1);
-            int selection = ValidateIntSelection(0, playHand.Count - 1);
-            selectedCard = playHand[selection];
-            Console.WriteLine("{0} played {1}", defender.Name, selectedCard.ToString());
-
+            Card attackingCard = table.LastPlayed();
             bool successfulDefend = false;
+
+            Console.Write("\n{0}: Select a card between [0] and [{1}]", defender.Name, playHand.Count - 1);
+            int selection = ValidateIntSelection(0, playHand.Count - 1);
+
+            selectedCard = playHand[selection];
+            if (selectedCard > attackingCard)
+            {
+                Console.WriteLine("Success\n");
+                successfulDefend = true;
+                playHand.Remove(selectedCard);
+                table.InPlay.Add(selectedCard);
+                Console.WriteLine("{0} played {1}", defender.Name, selectedCard.ToString());
+            }
+            else
+            {
+                Console.WriteLine("{0} does not beat {1}. Please try again",selectedCard.ToString(), attackingCard.ToString());
+                ShowHand(defender);
+            }
+
+
 
             return successfulDefend;
         }
@@ -354,15 +430,58 @@ namespace GameClient
         public void ThrowIn(Player attacker)
         {
 
+
+        }
+        public void DrawToMax(Player[] players)
+        {
+            if (playDeck.RemainingCardCount() > 0)
+            {
+                foreach (Player player in players)
+                {
+                    bool atMax = false;
+                    while (atMax == false)
+                    {
+                        if (player.PlayHand.Count() < MAX_HAND_SIZE)
+                        {
+                            DrawCard(player);
+                        }
+                        else
+                        {
+                            atMax = true;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// The defender can choose to not defend, and take the cards on the table instead
         /// </summary>
-        public void TakeCards() { 
-            //  TODO: Take cards from deck and put in defending player's hand
-            
-        
+        public void TakeCards(Player defender) {
+            Console.WriteLine("Picking up...\n");
+            defender.PlayHand.AddRange(table.InPlay);
+            table.InPlay.Clear();
+        }
+
+        /// <summary>
+        /// Determines if a player has won. In a game of Durak this is when there are no cards in the deck, and a player has no cards remaining
+        /// after there turn has ended. 
+        /// TODO: Make work
+        /// </summary>
+        /// <returns></returns>
+        public void DetermineWinner(Player player)
+        {
+            if (playDeck.RemainingCardCount() == 0)
+            {
+                if (player.PlayHand.Count() == 0)
+                {
+                    player.WinStatus = true;
+                }
+            }
+            else
+            {
+                player.WinStatus = false;
+            }
         }
 
         /// <summary>

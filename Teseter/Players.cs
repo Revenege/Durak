@@ -105,6 +105,18 @@ namespace GameClient
             return PlayerList[CurrentPlayerNumber];
         }
 
+        public static void SkipTurn()
+        {
+            if (CurrentPlayerNumber == (PlayerList.Count - 1))
+            {
+                CurrentPlayerNumber = 0;
+            }
+            else
+            {
+                CurrentPlayerNumber++;
+            }
+        }
+
         /// <summary>
         /// Determines the next Player without ending current Player's turn
         /// Throws exception if there are less than the minimum allowable Player objects in collection

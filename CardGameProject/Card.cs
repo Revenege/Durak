@@ -71,11 +71,11 @@ namespace CardGameProject
         /// </summary>
         /// <param name="newSuit">Desired suit</param>
         /// <param name="newRank">Desired rank</param>
-        public Card(Suit newSuit, Rank newRank, Boolean faceUp)
+        public Card(Suit newSuit, Rank newRank)
         {
             suit = newSuit;
             rank = newRank;
-            isFaceUp = faceUp;
+            isFaceUp = true;
             makeShortForm();
         }
         #endregion

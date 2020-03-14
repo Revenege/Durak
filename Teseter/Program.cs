@@ -26,7 +26,7 @@ namespace GameClient
              */
 
             //Decksize for durak. must be 20,36, or 52
-            int deckSize = 36;
+            int deckSize = 20;
             //Creates a new game of durak, with a given deckSize
             Durak newGame = new Durak(deckSize);
 

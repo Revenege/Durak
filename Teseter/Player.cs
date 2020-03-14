@@ -25,6 +25,8 @@ namespace GameClient
         /// </summary>
         public Cards PlayHand { get; private set; }
 
+        public bool WinStatus { get; set; }
+
         /// <summary>
         /// Name used for default constructor
         /// </summary>
@@ -46,16 +48,6 @@ namespace GameClient
             PlayHand = new Cards();
         }
 
-        /// <summary>
-        /// Determines if a player has won. In a game of Durak this is when there are no cards in the deck, and a player has no cards remaining
-        /// after there turn has ended. 
-        /// TODO: Make work
-        /// </summary>
-        /// <returns></returns>
-        public bool HasWon()
-        {
-            return false;
-        }
 
         /**
          * TODO: Add IsAI() property which will be used in the future in the gameplay logic

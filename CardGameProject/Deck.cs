@@ -58,7 +58,7 @@ namespace CardGameProject
             {
                 for (int rankVal = 1; rankVal < 14; rankVal++)
                 {
-                    cards.Add(new Card((Suit)suitVal, (Rank)rankVal, false));
+                    cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
                 }
             }
         }
@@ -99,12 +99,12 @@ namespace CardGameProject
                     for (int rankVal = start; rankVal <= 13; rankVal++)
                     {
                         //Adding the card
-                        cards.Add(new Card((Suit)suitVal, (Rank)rankVal, false));
+                        cards.Add(new Card((Suit)suitVal, (Rank)rankVal));
                         //if the cardVal is 13, additionally add an Ace
                         if (rankVal == 13)
                         {
                             //adding the ace
-                            cards.Add(new Card((Suit)suitVal, (Rank)1, false ));
+                            cards.Add(new Card((Suit)suitVal, (Rank)1));
                         }
                     }
                 }
