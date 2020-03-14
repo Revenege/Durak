@@ -25,7 +25,15 @@ namespace GameClient
         /// </summary>
         public Cards PlayHand { get; private set; }
 
+        /// <summary>
+        /// Determines if the player has won
+        /// </summary>
         public bool WinStatus { get; set; }
+
+        /// <summary>
+        /// Determines if the player is an AI
+        /// </summary>
+        public bool IsAi { get; set; }
 
         /// <summary>
         /// Name used for default constructor

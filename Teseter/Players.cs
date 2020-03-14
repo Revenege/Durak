@@ -40,6 +40,20 @@ namespace GameClient
         {
             PlayerList = new List<Player>(players);
 
+            //Setting one player to be human, and the rest ai
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (i == 0)
+                {
+                    players[i].IsAi = false;
+                }
+                else
+                {
+                    players[i].IsAi = true;
+                }
+            }
+
+
             //  Determine player turn order
             //  If player turn order is suppose to be random, randomize player list
             if (randomizeOrder)
