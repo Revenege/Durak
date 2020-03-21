@@ -139,8 +139,59 @@ namespace GameClient
         /// <summary>
         /// Performs AI's turn
         /// </summary>
-        private void AILogic()
+        private void AILogic(Player player)
         {
+
+            bool attackFinished = false;
+            bool successfulDefend = false;
+            char userInput = ' ';
+            //Check to see if current AI player is attacking or defending
+            //Attacking
+            if (player.Name == Players.GetCurrentPlayer().Name)
+            {
+
+                Attack(player);
+                //loop until attacker ends turn or defender ends turn
+                while (!attackFinished)
+                {
+                    //Defender defend?
+                    while (userInput != 'd' && userInput != 'D' && userInput != 't' && userInput != 'T')
+                    {
+                        ShowHand(Players.PeakNextPlayer());
+                        Console.WriteLine(Players.PeakNextPlayer().Name + ": Press \'d\' to defend, or \'t\' to take cards: ");
+                        userInput = Console.ReadKey().KeyChar;
+                    }
+                    //yes
+                    if (userInput == 'd' || userInput == 'D')
+                    {
+                        bool correctInput = false;
+                        //ensure valid play. NOTE: if the play CAN'T actually defend, this will trap them in a hellish infinite loop
+                        //However since this text game is purely for testing, we wont be fixing it as it wont exist in the main game.
+                        while (correctInput == false)
+                        {
+                            correctInput = Defend(Players.PeakNextPlayer());
+                        }
+                        successfulDefend = true;
+                        attackFinished = true;
+
+                    }
+                    //no
+                    else
+                    {
+                        //defender takes cards
+                        TakeCards(Players.PeakNextPlayer());
+                        attackFinished = true;
+                        successfulDefend = false;
+                    }
+                }//attack ends here
+
+            }
+            //defending
+            else
+            {
+
+            }
+
 
         }
 
@@ -345,7 +396,7 @@ namespace GameClient
                 }
                 else
                 {
-                    AILogic();
+                    AILogic(Players.GetCurrentPlayer());
                 }
                 //Count the number of players out of the game
                 foreach (Player player in players)
