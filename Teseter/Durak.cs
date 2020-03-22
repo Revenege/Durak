@@ -142,18 +142,35 @@ namespace GameClient
         private void AILogic(Player player)
         {
 
+            Player attacker = Players.GetCurrentPlayer();   //  Determine attacker
+            Player defender = Players.PeakNextPlayer();     //  Determine defender
             bool attackFinished = false;
             bool successfulDefend = false;
             char userInput = ' ';
+            Random r = new Random();
+            Cards playHand = attacker.PlayHand;
+            Card selectedCard;
+            int rNumber = r.Next(0, playHand.Count);
             //Check to see if current AI player is attacking or defending
             //Attacking
             if (player.Name == Players.GetCurrentPlayer().Name)
             {
 
-                Attack(player);
+
+
+                
+                rNumber = r.Next(0, playHand.Count);
+
+                selectedCard = playHand[rNumber];
+                playHand.Remove(selectedCard);
+                table.InPlay.Add(selectedCard);
+                Console.WriteLine("{0} played {1}", attacker.Name, selectedCard.ToString());
+
                 //loop until attacker ends turn or defender ends turn
                 while (!attackFinished)
                 {
+
+
                     //Defender defend?
                     while (userInput != 'd' && userInput != 'D' && userInput != 't' && userInput != 'T')
                     {
@@ -184,16 +201,52 @@ namespace GameClient
                         successfulDefend = false;
                     }
                 }//attack ends here
+                 //draw up to 7
+                DrawToMax(players);
+                //if the player defended succesfully, process as normal
+                if (successfulDefend)
+                {
+                    attacker = Players.GetNextPlayer();
+                    defender = Players.PeakNextPlayer();
+                }
+                else //Skip the next players turn first
+                {
+                    Players.SkipTurn();
+                    attacker = Players.GetNextPlayer();
+                    defender = Players.PeakNextPlayer();
+                }
 
             }
             //defending
             else
             {
 
+                Card attackingCard = table.LastPlayed();
+
+                rNumber = r.Next(0, playHand.Count);
+                selectedCard = playHand[rNumber];
+                if (selectedCard > attackingCard)
+                {
+                    Console.WriteLine("Success\n");
+                    successfulDefend = true;
+                    playHand.Remove(selectedCard);
+                    table.InPlay.Add(selectedCard);
+                    Console.WriteLine("{0} played {1}", player.Name, selectedCard.ToString());
+                }
+                else
+                {
+                    TakeCards(player);
+                    Console.WriteLine("{0} picked up", player.Name);
+                }
+               
+
             }
 
 
         }
+
+
+        
 
         /// <summary>
         /// Gameplay logic for the game Durak
@@ -294,6 +347,7 @@ namespace GameClient
             bool successfulDefend = false;
             char userInput = ' ';
             Console.WriteLine("\n\n" + attacker.Name + " goes first.");
+            
             Player theDurak = new Player();
 
             //loop until one player has no more cards
@@ -323,51 +377,58 @@ namespace GameClient
                         while (!attackFinished)
                         {
                             //Defender defend?
-                            while (userInput != 'd' && userInput != 'D' && userInput != 't' && userInput != 'T')
+                            if (defender.IsAi == false)
                             {
-                                ShowHand(defender);
-                                Console.WriteLine(defender.Name + ": Press \'d\' to defend, or \'t\' to take cards: ");
-                                userInput = Console.ReadKey().KeyChar;
-                            }
-                            //yes
-                            if (userInput == 'd' || userInput == 'D')
-                            {
-                                bool correctInput = false;
-                                //ensure valid play. NOTE: if the play CAN'T actually defend, this will trap them in a hellish infinite loop
-                                //However since this text game is purely for testing, we wont be fixing it as it wont exist in the main game.
-                                while (correctInput == false)
+                                while (userInput != 'd' && userInput != 'D' && userInput != 't' && userInput != 'T')
                                 {
-                                    correctInput = Defend(defender);
+                                    ShowHand(defender);
+                                    Console.WriteLine(defender.Name + ": Press \'d\' to defend, or \'t\' to take cards: ");
+                                    userInput = Console.ReadKey().KeyChar;
                                 }
-                                successfulDefend = true;
-                                attackFinished = true;
-                                ////attacker throw in? Commented out until further clarification.
-                                //while (userInput != 't' && userInput != 'T' && userInput != 'e' && userInput != 'E')
-                                //{
-                                //    Console.WriteLine(attacker.Name + ": Press \'t\' to throw in, or \'e\' to end attack: ");
-                                //    userInput = Console.ReadKey().KeyChar;
-                                //}
-                                ////yes
-                                //if(userInput == 't' || userInput == 'T')
-                                //{
-                                //    //attacker play another card
-                                //    ThrowIn(attacker);
-                                //}
-                                ////no
-                                //else
-                                //{
-                                //    //player ends attack
-                                //    attackFinished = true;
-                                //}
+                                //yes
+                                if (userInput == 'd' || userInput == 'D')
+                                {
+                                    bool correctInput = false;
+                                    //ensure valid play. NOTE: if the play CAN'T actually defend, this will trap them in a hellish infinite loop
+                                    //However since this text game is purely for testing, we wont be fixing it as it wont exist in the main game.
+                                    while (correctInput == false)
+                                    {
+                                        correctInput = Defend(defender);
+                                    }
+                                    successfulDefend = true;
+                                    attackFinished = true;
+                                    ////attacker throw in? Commented out until further clarification.
+                                    //while (userInput != 't' && userInput != 'T' && userInput != 'e' && userInput != 'E')
+                                    //{
+                                    //    Console.WriteLine(attacker.Name + ": Press \'t\' to throw in, or \'e\' to end attack: ");
+                                    //    userInput = Console.ReadKey().KeyChar;
+                                    //}
+                                    ////yes
+                                    //if(userInput == 't' || userInput == 'T')
+                                    //{
+                                    //    //attacker play another card
+                                    //    ThrowIn(attacker);
+                                    //}
+                                    ////no
+                                    //else
+                                    //{
+                                    //    //player ends attack
+                                    //    attackFinished = true;
+                                    //}
 
+                                }
+                                //no
+                                else
+                                {
+                                    //defender takes cards
+                                    TakeCards(defender);
+                                    attackFinished = true;
+                                    successfulDefend = false;
+                                }
                             }
-                            //no
                             else
                             {
-                                //defender takes cards
-                                TakeCards(defender);
-                                attackFinished = true;
-                                successfulDefend = false;
+                                AILogic(defender);
                             }
                         }//attack ends here
 
@@ -396,7 +457,7 @@ namespace GameClient
                 }
                 else
                 {
-                    AILogic(Players.GetCurrentPlayer());
+                    AILogic(attacker);
                 }
                 //Count the number of players out of the game
                 foreach (Player player in players)

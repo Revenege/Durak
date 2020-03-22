@@ -85,6 +85,7 @@ namespace GameClient
             //temp
             playerList.Add(new Player("Bob"));
             playerList.Add(new Player("Jim"));
+            
 
             //Sets each player in the arary. 
             players = playerList.ToArray();
