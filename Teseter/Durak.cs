@@ -13,7 +13,7 @@ using CardGameProject;
 
 namespace GameClient
 {
-    class Durak
+    public class Durak
     {
         /// <summary>
         /// Current card position in the deck
