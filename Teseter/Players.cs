@@ -29,7 +29,11 @@ namespace GameClient
         /// A list of players who are still in the game.
         /// Players who are defeated are removed from this list.
         /// </summary>
-        private static List<Player> PlayerList;
+        private static List<Player> PlayerList = new List<Player>();
+
+        public static int PlayerCount;
+
+ 
 
         /// <summary>
         /// Set up the conditions for a new round of a card game.
@@ -38,8 +42,13 @@ namespace GameClient
         /// <param name="randomizeOrder">Should player turn order be randomized?</param>
         public static void InitializeGame(Player[] players, bool randomizeOrder)
         {
-            PlayerList = new List<Player>(players);
-
+            try
+            {
+                PlayerList = new List<Player>(players);
+            }catch (Exception e)
+            {
+                throw e;
+            }
             //Setting one player to be human, and the rest ai
             for (int i = 0; i < players.Length; i++)
             {
@@ -63,6 +72,7 @@ namespace GameClient
             //  Otherwise player order is the order they initially appear in the array
 
             CurrentPlayerNumber = 0;    //  Current player number is set to beginning of list
+            PlayerCount = PlayerList.Count;
         }
 
         /// <summary>
@@ -191,6 +201,16 @@ namespace GameClient
             }
 
             return PlayerList[CurrentPlayerNumber];
+        }
+
+        public static Player GetPlayer(int playerNum)
+        {
+            if (PlayerList.Count < MINIMUM_PLAYER_COUNT)
+            {
+                throw new InvalidPlayerCount("\nThere must be at least " + MINIMUM_PLAYER_COUNT + " players for the game to continue.");
+            }
+
+            return PlayerList[playerNum];
         }
     }
 }

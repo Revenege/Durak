@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "Teseter\GameE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "GameWindow\CardBox.csproj", "{60EBF439-B630-450D-B6B0-2D7B5FB0A974}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameWindow", "Main Menu\GameWindow.csproj", "{EB095FC6-FF48-49F6-B7B4-B196C84CA1A7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{60EBF439-B630-450D-B6B0-2D7B5FB0A974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60EBF439-B630-450D-B6B0-2D7B5FB0A974}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60EBF439-B630-450D-B6B0-2D7B5FB0A974}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB095FC6-FF48-49F6-B7B4-B196C84CA1A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB095FC6-FF48-49F6-B7B4-B196C84CA1A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB095FC6-FF48-49F6-B7B4-B196C84CA1A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB095FC6-FF48-49F6-B7B4-B196C84CA1A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

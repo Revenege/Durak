@@ -47,8 +47,6 @@ namespace Main_Menu
                 if (txtName.Text.Length > 0)
                 {
 
-                    Durak newGame = new Durak(deckSize);
-
                     //Creates an array of players. Can be between 2 and 7
                     Player[] players;
 
@@ -59,16 +57,14 @@ namespace Main_Menu
                     //loop over the remaining players and set there names to be AI and a number
                     for (int i=0; i < playerCount-1; i++)
                     {
-                        playerList.Add(new Player("AI " + i));
+                        playerList.Add(new Player("AI " + (i+1)));
                     }
                     //Sets each player in the arary. 
                     players = playerList.ToArray();
 
-                    //Setting the players. Must be done before starting the game.
-                    newGame.SetPlayers(players);
                     //Close the main menu, and open the game window
                     this.Hide();
-                    var gameWindow = new frmGameWindow(newGame);
+                    var gameWindow = new frmGameWindow(players, deckSize);
                     //binding closing the game window to also close the main menu
                     gameWindow.Closed += (s, args) => this.Close();
                     gameWindow.Show();

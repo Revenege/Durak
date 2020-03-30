@@ -10,7 +10,7 @@ namespace GameClient
     /// <summary>
     /// An object representing the game table
     /// </summary>
-    class DurakTable
+    public class DurakTable
     {
 
         public Cards InPlay { get; private set; }

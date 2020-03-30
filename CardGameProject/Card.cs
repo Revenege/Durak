@@ -46,6 +46,8 @@ namespace CardGameProject
         /// </summary>
         public Rank rank;
 
+        public bool Playable;
+
         /// <summary>
         /// Stores a shortform of the card consisting of the first letter of the suit, and the number or first letter of the rank
         /// </summary>
