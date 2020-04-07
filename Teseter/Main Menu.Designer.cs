@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.rbtn20 = new System.Windows.Forms.RadioButton();
             this.rbtn36 = new System.Windows.Forms.RadioButton();
             this.rbtn52 = new System.Windows.Forms.RadioButton();
@@ -37,6 +38,9 @@
             this.lblPlayers = new System.Windows.Forms.Label();
             this.lblPlayerName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
+            this.ttpHelp = new System.Windows.Forms.ToolTip(this.components);
+            this.btnHelp = new System.Windows.Forms.Button();
+            this.btnAbout = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,6 +87,7 @@
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Deck Size";
+            this.ttpHelp.SetToolTip(this.groupBox1, "Select the size of the deck you would like to play with");
             // 
             // cbxPlayers
             // 
@@ -98,6 +103,7 @@
             this.cbxPlayers.Name = "cbxPlayers";
             this.cbxPlayers.Size = new System.Drawing.Size(57, 21);
             this.cbxPlayers.TabIndex = 7;
+            this.ttpHelp.SetToolTip(this.cbxPlayers, "Select the amount of players in the game");
             // 
             // btnStart
             // 
@@ -106,6 +112,7 @@
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 6;
             this.btnStart.Text = "Start";
+            this.ttpHelp.SetToolTip(this.btnStart, "Starts the game of Durak with current settings");
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
@@ -133,12 +140,36 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(100, 20);
             this.txtName.TabIndex = 11;
+            this.ttpHelp.SetToolTip(this.txtName, "Sets the players name");
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Location = new System.Drawing.Point(271, 146);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(22, 23);
+            this.btnHelp.TabIndex = 12;
+            this.btnHelp.Text = "?";
+            this.ttpHelp.SetToolTip(this.btnHelp, "Displays how to play Durak");
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
+            // btnAbout
+            // 
+            this.btnAbout.Location = new System.Drawing.Point(218, 10);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(75, 23);
+            this.btnAbout.TabIndex = 13;
+            this.btnAbout.Text = "About";
+            this.btnAbout.UseVisualStyleBackColor = true;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(314, 181);
+            this.Controls.Add(this.btnAbout);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblPlayerName);
             this.Controls.Add(this.lblPlayers);
@@ -165,6 +196,9 @@
         private System.Windows.Forms.Label lblPlayers;
         private System.Windows.Forms.Label lblPlayerName;
         private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.ToolTip ttpHelp;
+        private System.Windows.Forms.Button btnHelp;
+        private System.Windows.Forms.Button btnAbout;
     }
 }
 

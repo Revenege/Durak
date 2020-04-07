@@ -36,6 +36,7 @@
             this.lblTrumpTitle = new System.Windows.Forms.Label();
             this.lblDeckSizeTitle = new System.Windows.Forms.Label();
             this.lblDeckSize = new System.Windows.Forms.Label();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTest
@@ -109,11 +110,22 @@
             this.lblDeckSize.TabIndex = 7;
             this.lblDeckSize.Text = "OUTPUT";
             // 
+            // btnHelp
+            // 
+            this.btnHelp.Location = new System.Drawing.Point(764, 412);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(24, 26);
+            this.btnHelp.TabIndex = 8;
+            this.btnHelp.Text = "?";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click_1);
+            // 
             // frmGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.lblDeckSize);
             this.Controls.Add(this.lblDeckSizeTitle);
             this.Controls.Add(this.lblTrumpTitle);
@@ -124,6 +136,7 @@
             this.Controls.Add(this.txtTest);
             this.Name = "frmGameWindow";
             this.Text = "Durak";
+            this.Load += new System.EventHandler(this.frmGameWindow_Load);
             this.Shown += new System.EventHandler(this.frmGameWindow_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -140,5 +153,6 @@
         private System.Windows.Forms.Label lblTrumpTitle;
         private System.Windows.Forms.Label lblDeckSizeTitle;
         private System.Windows.Forms.Label lblDeckSize;
+        private System.Windows.Forms.Button btnHelp;
     }
 }
