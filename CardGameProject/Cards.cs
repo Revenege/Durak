@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace CardGameProject
 {
+    public delegate void CardsChangedHandler();
+
     public class Cards : List<Card>, ICloneable
     {
         /// <summary>
@@ -56,6 +58,35 @@ namespace CardGameProject
             return newString;
         }
 
+        //  Events
+        public event CardsChangedHandler CardsChanged;
 
+        /// <summary>
+        /// Adds a Card to the collection and fires CardsChanged event
+        /// </summary>
+        /// <param name="card"></param>
+        public new void Add(Card card)
+        {
+            if (CardsChanged != null)
+            {
+                CardsChanged();
+            }
+
+            base.Add(card);
+        }
+
+        /// <summary>
+        /// Removes a Card to the collection and fires CardsChanged event
+        /// </summary>
+        /// <param name="card"></param>
+        public new void Remove(Card card)
+        {
+            if (CardsChanged != null)
+            {
+                CardsChanged();
+            }
+
+            base.Remove(card);
+        }
     }
 }

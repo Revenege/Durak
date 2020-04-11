@@ -85,6 +85,10 @@
       <Project>{b194512c-3809-435a-9c28-80fb4f3b4077}</Project>
       <Name>CardBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameWindow\CardBox.csproj">
+      <Project>{60EBF439-B630-450D-B6B0-2D7B5FB0A974}</Project>
+      <Name>CardBox</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="About.resx">

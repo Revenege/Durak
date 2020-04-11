@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CardGameProject;
 using GameClient;
+using GameWindow;
 
 namespace Main_Menu
 {
@@ -17,6 +19,15 @@ namespace Main_Menu
         private Player attacker;
         private Player defender;
         static Random seed = new Random();
+
+        private Player player; //  The human player
+
+        
+
+        /// <summary>
+        /// The amount, in points, that CardBox controls are enlarged when hovered over. 
+        /// </summary>
+        private const int POP = 25;
 
         Durak game;
 
@@ -44,6 +55,10 @@ namespace Main_Menu
             game.DealHands();
             attacker = Players.GetCurrentPlayer();   //  Determine attacker
             defender = Players.PeakNextPlayer();     //  Determine defender
+
+            player = Players.GetHumanPlayer();
+            player.PlayHand.CardsChanged += hand_CardChanged;
+
             lblDeckSize.Text = game.GetCardsRemaining().ToString();
 
 
@@ -58,8 +73,6 @@ namespace Main_Menu
                 playState = 'A';
                 lblTempOutput.Text = game.ShowHand(attacker);
             }
-
-
         }
 
         /// <summary>
@@ -83,7 +96,7 @@ namespace Main_Menu
                 this.Close();
             }
 
-            //Begin the next Turn by advacning the turn
+            //Begin the next Turn by advancing the turn
             attacker = Players.GetNextPlayer();
             defender = Players.PeakNextPlayer();
             //Drawing to the max number of cards possilbe
@@ -253,6 +266,7 @@ namespace Main_Menu
         private void PlayerTurn()
         {
 
+
             //get user input
             String input = txtTest.Text;
             //check for validity of input
@@ -368,5 +382,100 @@ namespace Main_Menu
             #endregion
             MessageBox.Show(Help, "How to play Durak.");
         }
+
+
+        /// <summary>
+        /// Update the CardBoxes in the player's hand
+        /// </summary>
+        private void UpdatePlayerHand()
+        {
+            //  Retrieve human player's hand
+            Cards playerHand = Players.GetHumanPlayer().PlayHand;
+
+            //  Clear the existing CardBox controls from play area
+            pnlPlayerHand.Controls.Clear();
+
+            //  Add each card to play area.
+            foreach (Card card in playerHand)
+            {
+                pnlPlayerHand.Controls.Add(new CardBox(card));
+            }
+        }
+
+        /// <summary>
+        /// Repositions the cards in a panel so that they are evenly distributed in the area available.
+        /// </summary>
+        /// <param name="panelHand"></param>
+        private void RealignCards(Panel panelHand)
+        {
+            // Determine the number of cards/controls in the panel.
+            int myCount = panelHand.Controls.Count;
+
+            // If there are any cards in the panel
+            if (myCount > 0)
+            {
+
+
+                // Determine how wide one card/control is.
+                int cardWidth = panelHand.Controls[0].Width;
+
+                // Determine where the left-hand edge of a card/control placed 
+                // in the middle of the panel should be  
+                int startPoint = (panelHand.Width - cardWidth) / 2;
+
+                // An offset for the remaining cards
+                int offset = 0;
+
+                // If there are more than one cards/controls in the panel
+                if (myCount > 1)
+                {
+                    // Determine what the offset should be for each card based on the 
+                    // space available and the number of card/controls
+                    offset = (panelHand.Width - cardWidth - 2 * POP) / (myCount - 1);
+
+                    // If the offset is bigger than the card/control width, i.e. there is lots of room, 
+                    // set the offset to the card width. The cards/controls will not overlap at all.
+                    if (offset > cardWidth)
+                    {
+                        offset = cardWidth;
+                    }
+
+                    // Determine width of all the cards/controls 
+                    int allCardsWidth = (myCount - 1) * offset + cardWidth;
+                    // Set the start point to where the left-hand edge of the "first" card should be.
+                    startPoint = (panelHand.Width - allCardsWidth) / 2;
+                }
+
+                // Aligning the cards: Note that I align them in reserve order from how they
+                // are stored in the controls collection. This is so that cards on the left 
+                // appear underneath cards to the right. This allows the user to see the rank
+                // and suit more easily.
+
+                // Align the "first" card (which is the last control in the collection)
+                panelHand.Controls[myCount - 1].Top = POP;
+                System.Diagnostics.Debug.Write(panelHand.Controls[myCount - 1].Top.ToString() + "\n");
+                panelHand.Controls[myCount - 1].Left = startPoint;
+
+                // for each of the remaining controls, in reverse order.
+                for (int index = myCount - 2; index >= 0; index--)
+                {
+                    // Align the current card
+                    panelHand.Controls[index].Top = POP;
+                    panelHand.Controls[index].Left = panelHand.Controls[index + 1].Left + offset;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the player's hand when their Cards collection changes.
+        /// </summary>
+        void hand_CardChanged()
+        {
+            //MessageBox.Show("a hand was changed");
+            UpdatePlayerHand();
+            RealignCards(pnlPlayerHand);
+        }
+
+
     }
 }

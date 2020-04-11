@@ -212,5 +212,22 @@ namespace GameClient
 
             return PlayerList[playerNum];
         }
+
+        /// <summary>
+        /// Gets the human player. This assumes there is only one human player in the game.
+        /// </summary>
+        /// <returns>The human player</returns>
+        public static Player GetHumanPlayer()
+        {
+            foreach (Player player in PlayerList)
+            {
+                if (player.IsAi == false)
+                {
+                    return player;
+                }
+            }
+
+            return null;
+        }
     }
 }

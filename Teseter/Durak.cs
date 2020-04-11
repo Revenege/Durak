@@ -134,6 +134,11 @@ namespace GameClient
                 {
                     currentHand.PlayHand.Add(draw);
                     playDeck.RemoveCard(0);
+
+
+                    //  Fire an event signalling that a player's hand has changed
+
+
                     return true;
                 }
                 else
