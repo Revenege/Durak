@@ -60,6 +60,8 @@ namespace Main_Menu
             player.PlayHand.CardsChanged += hand_CardChanged;
 
             lblDeckSize.Text = game.GetCardsRemaining().ToString();
+            UpdatePlayerHand();
+            RealignCards(pnlPlayerHand);
 
 
             //If the AI is going first, then  set the player to defend, and the AI takes its turn
