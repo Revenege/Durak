@@ -22,7 +22,7 @@ namespace Main_Menu
 
         private Player player; //  The human player
 
-        
+
 
         /// <summary>
         /// The amount, in points, that CardBox controls are enlarged when hovered over. 
@@ -51,13 +51,16 @@ namespace Main_Menu
 
             lblTrump.Text = game.TrumpSuit();
 
+
+            player = Players.GetHumanPlayer();
+            player.PlayHand.CardsChanged += hand_CardChanged;
+
             //Dealing the hands
             game.DealHands();
             attacker = Players.GetCurrentPlayer();   //  Determine attacker
             defender = Players.PeakNextPlayer();     //  Determine defender
 
-            player = Players.GetHumanPlayer();
-            player.PlayHand.CardsChanged += hand_CardChanged;
+
 
             lblDeckSize.Text = game.GetCardsRemaining().ToString();
             UpdatePlayerHand();
@@ -109,7 +112,8 @@ namespace Main_Menu
             //If the next player is an AI, post which one
             if (attacker.IsAi == true)
             {
-                lblCardPlayed.Text += "\nIt is now "+Players.GetCurrentPlayer().Name +" Turn";
+                //txtCardPlayed.Text += "\nIt is now "+Players.GetCurrentPlayer().Name +" Turn";
+                txtCardPlayed.Text += "\nIt is now " + Players.GetCurrentPlayer().Name + " Turn";
                 //Advance the turn
                 AiTurn('A');
             }
@@ -117,7 +121,7 @@ namespace Main_Menu
             {
                 //Advance the turn ater setting the playState
                 btnAccept.Enabled = true;
-                lblCardPlayed.Text += "\nIt is now your turn";
+                txtCardPlayed.Text += "\nIt is now your turn";
                 lblTempOutput.Text = game.ShowHand(attacker);
                 playState = 'A';
             }
@@ -151,14 +155,14 @@ namespace Main_Menu
                     //If they are, defend
                     if (playableCards > 0)
                     {
-                        lblCardPlayed.Text += "\n" + defender.Name + " Defends with " + defender.PlayHand[selected].ToString();
+                        txtCardPlayed.Text += "\n" + defender.Name + " Defends with " + defender.PlayHand[selected].ToString();
 
                         game.Defend(defender, defender.PlayHand[selected]);
 
                     }
                     else//Else pick up
                     {
-                        lblCardPlayed.Text += "\n" + defender.Name + " Was unable to defend";
+                        txtCardPlayed.Text += "\n" + defender.Name + " Was unable to defend";
                         game.TakeCards(defender);
                         Players.SkipTurn();
                     }
@@ -168,7 +172,7 @@ namespace Main_Menu
                     //Determine if the defender has won. Defender is always an AI
                     if (defender.WinStatus == true)
                     {
-                        MessageBox.Show(defender.Name+" is Not the durak");
+                        MessageBox.Show(defender.Name + " is Not the durak");
                     }
                     //Determine if the attacker has won. 
                     if (attacker.WinStatus == true)
@@ -199,21 +203,21 @@ namespace Main_Menu
                     else//Otherwise, Player defends
                     {
                         btnAccept.Enabled = true;
-                        lblCardPlayed.Text += "\nYou must Defend";
+                        txtCardPlayed.Text += "\nYou must Defend";
                         lblTempOutput.Text = game.ShowHand(defender);
                         playState = 'D';
                     }
                 }
 
             }
-            else if (AiPlayState =='A')//IF the Ai is attacking
+            else if (AiPlayState == 'A')//IF the Ai is attacking
             {
                 //Check if they've won
                 if (attacker.WinStatus == false)
                 {
                     //If they haven't won, Play a card at random
                     int attackingCard = seed.Next(0, attacker.PlayHand.Count);
-                    lblCardPlayed.Text += "\n" + attacker.Name + " Plays " + attacker.PlayHand[attackingCard].ToString();
+                    txtCardPlayed.Text += "\n" + attacker.Name + " Plays " + attacker.PlayHand[attackingCard].ToString();
                     game.Attack(attacker, attacker.PlayHand[attackingCard]);
                     //advance the turn based on if its an Ai next
                     if (defender.IsAi)
@@ -223,12 +227,12 @@ namespace Main_Menu
                     else
                     {
                         playState = 'D';
-                        lblCardPlayed.Text += "\n You must Defend";
+                        txtCardPlayed.Text += "\n You must Defend";
                         lblTempOutput.Text = game.ShowHand(defender);
                         btnAccept.Enabled = true;
                     }
 
-                    
+
                 }
                 else
                 {
@@ -243,7 +247,7 @@ namespace Main_Menu
                     else
                     {
                         btnAccept.Enabled = true;
-                        lblCardPlayed.Text += "\nIt is now your turn";
+                        txtCardPlayed.Text += "\nIt is now your turn";
                         lblTempOutput.Text = game.ShowHand(attacker);
                         playState = 'A';
                     }
@@ -283,7 +287,7 @@ namespace Main_Menu
                     //Preform the attack
                     if (selected >= 0 && selected < attacker.PlayHand.Count)
                     {
-                        lblCardPlayed.Text = "\nYou play " + attacker.PlayHand[selected].ToString();
+                        txtCardPlayed.Text = "\nYou play " + attacker.PlayHand[selected].ToString();
                         game.Attack(attacker, attacker.PlayHand[selected]);
                         AiTurn('D');
                     }
@@ -304,13 +308,13 @@ namespace Main_Menu
                     {
                         if (defender.PlayHand[selected] > game.Table.LastPlayed())
                         {
-                            lblCardPlayed.Text += "\n" + defender.Name + " Defends with " + defender.PlayHand[selected].ToString();
+                            txtCardPlayed.Text += "\n" + defender.Name + " Defends with " + defender.PlayHand[selected].ToString();
                             game.Defend(defender, defender.PlayHand[selected]);
                         }
                     }
                     else//ignore input, pick up the card and skip the turn
                     {
-                        lblCardPlayed.Text = "\n" + defender.Name + " Was unable to defend";
+                        txtCardPlayed.Text = "\n" + defender.Name + " Was unable to defend";
                         game.TakeCards(defender);
                         Players.SkipTurn();
                     }
@@ -400,6 +404,7 @@ namespace Main_Menu
             //  Add each card to play area.
             foreach (Card card in playerHand)
             {
+                System.Diagnostics.Debug.WriteLine("Adding " + card.ToString() + " to panel");
                 pnlPlayerHand.Controls.Add(new CardBox(card));
             }
         }
@@ -471,9 +476,9 @@ namespace Main_Menu
         /// <summary>
         /// Updates the player's hand when their Cards collection changes.
         /// </summary>
-        void hand_CardChanged()
+        void hand_CardChanged(string message)
         {
-            //MessageBox.Show("a hand was changed");
+            System.Diagnostics.Debug.WriteLine(message);
             UpdatePlayerHand();
             RealignCards(pnlPlayerHand);
         }

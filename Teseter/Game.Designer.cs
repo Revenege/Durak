@@ -31,13 +31,14 @@
             this.txtTest = new System.Windows.Forms.TextBox();
             this.lblTempOutput = new System.Windows.Forms.Label();
             this.btnAccept = new System.Windows.Forms.Button();
-            this.lblCardPlayed = new System.Windows.Forms.Label();
             this.lblTrump = new System.Windows.Forms.Label();
             this.lblTrumpTitle = new System.Windows.Forms.Label();
             this.lblDeckSizeTitle = new System.Windows.Forms.Label();
             this.lblDeckSize = new System.Windows.Forms.Label();
             this.btnHelp = new System.Windows.Forms.Button();
             this.pnlPlayerHand = new System.Windows.Forms.Panel();
+            this.pnlTable = new System.Windows.Forms.Panel();
+            this.txtCardPlayed = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtTest
@@ -68,16 +69,6 @@
             this.btnAccept.Text = "Accept";
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
-            // 
-            // lblCardPlayed
-            // 
-            this.lblCardPlayed.AutoSize = true;
-            this.lblCardPlayed.Location = new System.Drawing.Point(351, 110);
-            this.lblCardPlayed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCardPlayed.Name = "lblCardPlayed";
-            this.lblCardPlayed.Size = new System.Drawing.Size(66, 17);
-            this.lblCardPlayed.TabIndex = 3;
-            this.lblCardPlayed.Text = "OUTPUT";
             // 
             // lblTrump
             // 
@@ -133,23 +124,42 @@
             // pnlPlayerHand
             // 
             this.pnlPlayerHand.BackColor = System.Drawing.SystemColors.Highlight;
-            this.pnlPlayerHand.Location = new System.Drawing.Point(354, 261);
+            this.pnlPlayerHand.Location = new System.Drawing.Point(354, 348);
             this.pnlPlayerHand.Name = "pnlPlayerHand";
             this.pnlPlayerHand.Size = new System.Drawing.Size(448, 169);
             this.pnlPlayerHand.TabIndex = 10;
+            // 
+            // pnlTable
+            // 
+            this.pnlTable.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnlTable.Location = new System.Drawing.Point(354, 173);
+            this.pnlTable.Name = "pnlTable";
+            this.pnlTable.Size = new System.Drawing.Size(448, 169);
+            this.pnlTable.TabIndex = 11;
+            // 
+            // txtCardPlayed
+            // 
+            this.txtCardPlayed.Location = new System.Drawing.Point(50, 390);
+            this.txtCardPlayed.Multiline = true;
+            this.txtCardPlayed.Name = "txtCardPlayed";
+            this.txtCardPlayed.ReadOnly = true;
+            this.txtCardPlayed.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtCardPlayed.Size = new System.Drawing.Size(242, 127);
+            this.txtCardPlayed.TabIndex = 12;
             // 
             // frmGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.Controls.Add(this.txtCardPlayed);
+            this.Controls.Add(this.pnlTable);
             this.Controls.Add(this.pnlPlayerHand);
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.lblDeckSize);
             this.Controls.Add(this.lblDeckSizeTitle);
             this.Controls.Add(this.lblTrumpTitle);
             this.Controls.Add(this.lblTrump);
-            this.Controls.Add(this.lblCardPlayed);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.lblTempOutput);
             this.Controls.Add(this.txtTest);
@@ -168,12 +178,13 @@
         private System.Windows.Forms.TextBox txtTest;
         private System.Windows.Forms.Label lblTempOutput;
         private System.Windows.Forms.Button btnAccept;
-        private System.Windows.Forms.Label lblCardPlayed;
         private System.Windows.Forms.Label lblTrump;
         private System.Windows.Forms.Label lblTrumpTitle;
         private System.Windows.Forms.Label lblDeckSizeTitle;
         private System.Windows.Forms.Label lblDeckSize;
         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.Panel pnlPlayerHand;
+        private System.Windows.Forms.Panel pnlTable;
+        private System.Windows.Forms.TextBox txtCardPlayed;
     }
 }
