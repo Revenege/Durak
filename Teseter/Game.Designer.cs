@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtTest = new System.Windows.Forms.TextBox();
-            this.lblTempOutput = new System.Windows.Forms.Label();
-            this.btnAccept = new System.Windows.Forms.Button();
             this.lblTrump = new System.Windows.Forms.Label();
             this.lblTrumpTitle = new System.Windows.Forms.Label();
             this.lblDeckSizeTitle = new System.Windows.Forms.Label();
@@ -40,35 +37,6 @@
             this.pnlTable = new System.Windows.Forms.Panel();
             this.txtCardPlayed = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // txtTest
-            // 
-            this.txtTest.Location = new System.Drawing.Point(51, 47);
-            this.txtTest.Margin = new System.Windows.Forms.Padding(4);
-            this.txtTest.Name = "txtTest";
-            this.txtTest.Size = new System.Drawing.Size(132, 22);
-            this.txtTest.TabIndex = 0;
-            // 
-            // lblTempOutput
-            // 
-            this.lblTempOutput.AutoSize = true;
-            this.lblTempOutput.Location = new System.Drawing.Point(47, 110);
-            this.lblTempOutput.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTempOutput.Name = "lblTempOutput";
-            this.lblTempOutput.Size = new System.Drawing.Size(66, 17);
-            this.lblTempOutput.TabIndex = 1;
-            this.lblTempOutput.Text = "OUTPUT";
-            // 
-            // btnAccept
-            // 
-            this.btnAccept.Location = new System.Drawing.Point(192, 44);
-            this.btnAccept.Margin = new System.Windows.Forms.Padding(4);
-            this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(100, 28);
-            this.btnAccept.TabIndex = 2;
-            this.btnAccept.Text = "Accept";
-            this.btnAccept.UseVisualStyleBackColor = true;
-            this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
             // lblTrump
             // 
@@ -124,7 +92,7 @@
             // pnlPlayerHand
             // 
             this.pnlPlayerHand.BackColor = System.Drawing.SystemColors.Highlight;
-            this.pnlPlayerHand.Location = new System.Drawing.Point(354, 348);
+            this.pnlPlayerHand.Location = new System.Drawing.Point(413, 348);
             this.pnlPlayerHand.Name = "pnlPlayerHand";
             this.pnlPlayerHand.Size = new System.Drawing.Size(448, 169);
             this.pnlPlayerHand.TabIndex = 10;
@@ -132,19 +100,19 @@
             // pnlTable
             // 
             this.pnlTable.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pnlTable.Location = new System.Drawing.Point(354, 173);
+            this.pnlTable.Location = new System.Drawing.Point(413, 173);
             this.pnlTable.Name = "pnlTable";
             this.pnlTable.Size = new System.Drawing.Size(448, 169);
             this.pnlTable.TabIndex = 11;
             // 
             // txtCardPlayed
             // 
-            this.txtCardPlayed.Location = new System.Drawing.Point(50, 390);
+            this.txtCardPlayed.Location = new System.Drawing.Point(50, 173);
             this.txtCardPlayed.Multiline = true;
             this.txtCardPlayed.Name = "txtCardPlayed";
             this.txtCardPlayed.ReadOnly = true;
             this.txtCardPlayed.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCardPlayed.Size = new System.Drawing.Size(242, 127);
+            this.txtCardPlayed.Size = new System.Drawing.Size(242, 344);
             this.txtCardPlayed.TabIndex = 12;
             // 
             // frmGameWindow
@@ -160,9 +128,6 @@
             this.Controls.Add(this.lblDeckSizeTitle);
             this.Controls.Add(this.lblTrumpTitle);
             this.Controls.Add(this.lblTrump);
-            this.Controls.Add(this.btnAccept);
-            this.Controls.Add(this.lblTempOutput);
-            this.Controls.Add(this.txtTest);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmGameWindow";
             this.Text = "Durak";
@@ -174,10 +139,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtTest;
-        private System.Windows.Forms.Label lblTempOutput;
-        private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Label lblTrump;
         private System.Windows.Forms.Label lblTrumpTitle;
         private System.Windows.Forms.Label lblDeckSizeTitle;
