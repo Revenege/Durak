@@ -63,6 +63,11 @@ namespace GameClient
         /// The trump card
         /// </summary>
         private Card trumpCard;
+        public Card TrumpCard
+        {
+            get { return trumpCard; }
+            private set{ trumpCard = value;}
+        }
 
         /// <summary>
         /// Default Constructor

@@ -22,6 +22,8 @@ namespace Main_Menu
 
         private Player player; //  The human player
 
+        private Cards tableCards;   //  Cards currently on the table
+
         /// <summary>
         /// The amount, in points, that CardBox controls are enlarged when hovered over. 
         /// </summary>
@@ -47,10 +49,15 @@ namespace Main_Menu
             Players.InitializeGame(players, true);
             game.SetPlayers(players);
 
-            lblTrump.Text = game.TrumpSuit();
+            //  Get reference to the game table (Card container)
+            tableCards = game.Table.InPlay;
+
+            //lblTrump.Text = game.TrumpSuit();
+            cbTrump.Card = game.TrumpCard;
 
             player = Players.GetHumanPlayer();
             player.PlayHand.CardsChanged += hand_CardChanged;
+            tableCards.CardsChanged += hand_CardChanged;
 
             //Dealing the hands
             game.DealHands();
@@ -58,8 +65,8 @@ namespace Main_Menu
             defender = Players.PeakNextPlayer();     //  Determine defender
 
             lblDeckSize.Text = game.GetCardsRemaining().ToString();
-            UpdatePlayerHand();
-            RealignCards(pnlPlayerHand);
+            //UpdateHand(player.PlayHand);
+            //RealignCards(pnlPlayerHand);
 
             //If the AI is going first, then  set the player to defend, and the AI takes its turn
             if (Players.GetCurrentPlayer().IsAi)
@@ -197,7 +204,7 @@ namespace Main_Menu
                     else//Otherwise, Player defends
                     {
                         //btnAccept.Enabled = true;
-                        DisplayOutput("You must Defend");
+                        DisplayOutput("You must Defend1");
                         //lblTempOutput.Text = game.ShowHand(defender);
                         playState = 'D';
                     }
@@ -220,7 +227,7 @@ namespace Main_Menu
                     else
                     {
                         playState = 'D';
-                        DisplayOutput("You must Defend");
+                        DisplayOutput("You must Defend2");
                         //lblTempOutput.Text = game.ShowHand(defender);
                         //btnAccept.Enabled = true;
                     }
@@ -362,26 +369,38 @@ namespace Main_Menu
 
 
         /// <summary>
-        /// Update the CardBoxes in the player's hand
+        /// Update the Cards in a hand
         /// </summary>
-        private void UpdatePlayerHand()
+        private void UpdateHand(Cards hand)
         {
-            //  Retrieve human player's hand
-            Cards playerHand = Players.GetHumanPlayer().PlayHand;
-
-            //  Clear the existing CardBox controls from play area
-            pnlPlayerHand.Controls.Clear();
+            //  Determin which hand to clear
+            if (hand == player.PlayHand)
+            {
+                pnlPlayerHand.Controls.Clear();
+            }
+            else if (hand == tableCards)
+            {
+                pnlTable.Controls.Clear();
+            }
 
             CardBox aCardBox;
 
             //  Add each card to play area.
-            foreach (Card card in playerHand)
+            foreach (Card card in hand)
             {
                 aCardBox = new CardBox(card);
                 aCardBox.Click += CardBoxClick;
 
-                System.Diagnostics.Debug.WriteLine("Adding " + card.ToString() + " to panel");
-                pnlPlayerHand.Controls.Add(aCardBox);
+                if (hand == player.PlayHand)
+                {
+                    System.Diagnostics.Debug.WriteLine("Adding " + card.ToString() + " to player's panel");
+                    pnlPlayerHand.Controls.Add(aCardBox);
+                }
+                else if (hand == tableCards)
+                {
+                    System.Diagnostics.Debug.WriteLine("Adding " + card.ToString() + " to table panel");
+                    pnlTable.Controls.Add(aCardBox);
+                }
             }
         }
 
@@ -450,11 +469,21 @@ namespace Main_Menu
         /// <summary>
         /// Updates the player's hand when their Cards collection changes.
         /// </summary>
-        void hand_CardChanged(string message)
+        void hand_CardChanged(string message, Cards sender)
         {
-            System.Diagnostics.Debug.WriteLine(message);
-            UpdatePlayerHand();
-            RealignCards(pnlPlayerHand);
+            if (sender == tableCards)
+            {
+                System.Diagnostics.Debug.WriteLine(message + " to the table.");
+                UpdateHand(tableCards);
+                RealignCards(pnlTable);
+                //  todo: add to table visually
+            }
+            else if (sender == player.PlayHand)
+            {
+                System.Diagnostics.Debug.WriteLine(message + " to " + player.Name + "'s hand.");
+                UpdateHand(player.PlayHand);
+                RealignCards(pnlPlayerHand);
+            }
         }
 
         /// <summary>

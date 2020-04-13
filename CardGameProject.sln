@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "Teseter\GameE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "GameWindow\CardBox.csproj", "{60EBF439-B630-450D-B6B0-2D7B5FB0A974}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DE25604E-05D3-4B05-997F-D61992829234}"
+	ProjectSection(SolutionItems) = preProject
+		Bugs.txt = Bugs.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

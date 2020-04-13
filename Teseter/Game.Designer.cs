@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTrump = new System.Windows.Forms.Label();
+            CardGameProject.Card card1 = new CardGameProject.Card();
             this.lblTrumpTitle = new System.Windows.Forms.Label();
             this.lblDeckSizeTitle = new System.Windows.Forms.Label();
             this.lblDeckSize = new System.Windows.Forms.Label();
@@ -36,17 +36,8 @@
             this.pnlPlayerHand = new System.Windows.Forms.Panel();
             this.pnlTable = new System.Windows.Forms.Panel();
             this.txtCardPlayed = new System.Windows.Forms.TextBox();
+            this.cbTrump = new GameWindow.CardBox();
             this.SuspendLayout();
-            // 
-            // lblTrump
-            // 
-            this.lblTrump.AutoSize = true;
-            this.lblTrump.Location = new System.Drawing.Point(395, 50);
-            this.lblTrump.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTrump.Name = "lblTrump";
-            this.lblTrump.Size = new System.Drawing.Size(66, 17);
-            this.lblTrump.TabIndex = 4;
-            this.lblTrump.Text = "OUTPUT";
             // 
             // lblTrumpTitle
             // 
@@ -115,11 +106,24 @@
             this.txtCardPlayed.Size = new System.Drawing.Size(242, 344);
             this.txtCardPlayed.TabIndex = 12;
             // 
+            // cbTrump
+            // 
+            this.cbTrump.Card = card1;
+            this.cbTrump.isFaceUp = false;
+            this.cbTrump.Location = new System.Drawing.Point(390, 13);
+            this.cbTrump.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbTrump.Name = "cbTrump";
+            this.cbTrump.Rank = CardGameProject.Rank.Ace;
+            this.cbTrump.Size = new System.Drawing.Size(100, 123);
+            this.cbTrump.Suit = CardGameProject.Suit.Club;
+            this.cbTrump.TabIndex = 13;
+            // 
             // frmGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.Controls.Add(this.cbTrump);
             this.Controls.Add(this.txtCardPlayed);
             this.Controls.Add(this.pnlTable);
             this.Controls.Add(this.pnlPlayerHand);
@@ -127,7 +131,6 @@
             this.Controls.Add(this.lblDeckSize);
             this.Controls.Add(this.lblDeckSizeTitle);
             this.Controls.Add(this.lblTrumpTitle);
-            this.Controls.Add(this.lblTrump);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmGameWindow";
             this.Text = "Durak";
@@ -139,7 +142,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label lblTrump;
         private System.Windows.Forms.Label lblTrumpTitle;
         private System.Windows.Forms.Label lblDeckSizeTitle;
         private System.Windows.Forms.Label lblDeckSize;
@@ -147,5 +149,6 @@
         private System.Windows.Forms.Panel pnlPlayerHand;
         private System.Windows.Forms.Panel pnlTable;
         private System.Windows.Forms.TextBox txtCardPlayed;
+        private GameWindow.CardBox cbTrump;
     }
 }
