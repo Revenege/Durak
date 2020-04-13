@@ -37,6 +37,8 @@
             this.pnlTable = new System.Windows.Forms.Panel();
             this.txtCardPlayed = new System.Windows.Forms.TextBox();
             this.cbTrump = new GameWindow.CardBox();
+            this.lblTable = new System.Windows.Forms.Label();
+            this.lblPlayerHand = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblTrumpTitle
@@ -118,11 +120,31 @@
             this.cbTrump.Suit = CardGameProject.Suit.Club;
             this.cbTrump.TabIndex = 13;
             // 
+            // lblTable
+            // 
+            this.lblTable.AutoSize = true;
+            this.lblTable.Location = new System.Drawing.Point(327, 251);
+            this.lblTable.Name = "lblTable";
+            this.lblTable.Size = new System.Drawing.Size(44, 17);
+            this.lblTable.TabIndex = 14;
+            this.lblTable.Text = "Table";
+            // 
+            // lblPlayerHand
+            // 
+            this.lblPlayerHand.AutoSize = true;
+            this.lblPlayerHand.Location = new System.Drawing.Point(327, 421);
+            this.lblPlayerHand.Name = "lblPlayerHand";
+            this.lblPlayerHand.Size = new System.Drawing.Size(76, 17);
+            this.lblPlayerHand.TabIndex = 15;
+            this.lblPlayerHand.Text = "Your Hand";
+            // 
             // frmGameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.Controls.Add(this.lblPlayerHand);
+            this.Controls.Add(this.lblTable);
             this.Controls.Add(this.cbTrump);
             this.Controls.Add(this.txtCardPlayed);
             this.Controls.Add(this.pnlTable);
@@ -150,5 +172,7 @@
         private System.Windows.Forms.Panel pnlTable;
         private System.Windows.Forms.TextBox txtCardPlayed;
         private GameWindow.CardBox cbTrump;
+        private System.Windows.Forms.Label lblTable;
+        private System.Windows.Forms.Label lblPlayerHand;
     }
 }

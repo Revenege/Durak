@@ -48,7 +48,7 @@
             // 
             this.rbtn20.AutoSize = true;
             this.rbtn20.Location = new System.Drawing.Point(8, 23);
-            this.rbtn20.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbtn20.Margin = new System.Windows.Forms.Padding(4);
             this.rbtn20.Name = "rbtn20";
             this.rbtn20.Size = new System.Drawing.Size(86, 21);
             this.rbtn20.TabIndex = 0;
@@ -60,7 +60,7 @@
             this.rbtn36.AutoSize = true;
             this.rbtn36.Checked = true;
             this.rbtn36.Location = new System.Drawing.Point(129, 23);
-            this.rbtn36.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbtn36.Margin = new System.Windows.Forms.Padding(4);
             this.rbtn36.Name = "rbtn36";
             this.rbtn36.Size = new System.Drawing.Size(86, 21);
             this.rbtn36.TabIndex = 1;
@@ -72,7 +72,7 @@
             // 
             this.rbtn52.AutoSize = true;
             this.rbtn52.Location = new System.Drawing.Point(251, 23);
-            this.rbtn52.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbtn52.Margin = new System.Windows.Forms.Padding(4);
             this.rbtn52.Name = "rbtn52";
             this.rbtn52.Size = new System.Drawing.Size(86, 21);
             this.rbtn52.TabIndex = 2;
@@ -85,9 +85,9 @@
             this.groupBox1.Controls.Add(this.rbtn36);
             this.groupBox1.Controls.Add(this.rbtn52);
             this.groupBox1.Location = new System.Drawing.Point(16, 48);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(375, 70);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
@@ -105,16 +105,17 @@
             "6",
             "7"});
             this.cbxPlayers.Location = new System.Drawing.Point(75, 129);
-            this.cbxPlayers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbxPlayers.Margin = new System.Windows.Forms.Padding(4);
             this.cbxPlayers.Name = "cbxPlayers";
             this.cbxPlayers.Size = new System.Drawing.Size(75, 24);
             this.cbxPlayers.TabIndex = 7;
+            this.cbxPlayers.Text = "2";
             this.ttpHelp.SetToolTip(this.cbxPlayers, "Select the amount of players in the game");
             // 
             // btnStart
             // 
             this.btnStart.Location = new System.Drawing.Point(13, 180);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(4);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(100, 28);
             this.btnStart.TabIndex = 6;
@@ -146,16 +147,17 @@
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(257, 129);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(132, 22);
             this.txtName.TabIndex = 11;
+            this.txtName.Text = "Player";
             this.ttpHelp.SetToolTip(this.txtName, "Sets the players name");
             // 
             // btnHelp
             // 
             this.btnHelp.Location = new System.Drawing.Point(361, 180);
-            this.btnHelp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnHelp.Margin = new System.Windows.Forms.Padding(4);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(29, 28);
             this.btnHelp.TabIndex = 12;
@@ -167,7 +169,7 @@
             // btnAbout
             // 
             this.btnAbout.Location = new System.Drawing.Point(291, 12);
-            this.btnAbout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAbout.Margin = new System.Windows.Forms.Padding(4);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(100, 28);
             this.btnAbout.TabIndex = 13;
@@ -177,6 +179,7 @@
             // 
             // frmMainMenu
             // 
+            this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(419, 223);
@@ -188,7 +191,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cbxPlayers);
             this.Controls.Add(this.btnStart);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMainMenu";
             this.Text = "Durak";
             this.groupBox1.ResumeLayout(false);
