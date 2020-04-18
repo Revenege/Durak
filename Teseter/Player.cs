@@ -56,6 +56,13 @@ namespace GameClient
             PlayHand = new Cards();
         }
 
+        /// <summary>
+        /// Get player information
+        /// </summary>
+        /// <returns>Player's name</returns>
+        public override string ToString() {
+            return this.Name;
+        }
 
         /**
          * TODO: Add IsAI() property which will be used in the future in the gameplay logic

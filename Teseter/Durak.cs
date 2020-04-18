@@ -63,6 +63,11 @@ namespace GameClient
         /// The trump card
         /// </summary>
         private Card trumpCard;
+        public Card TrumpCard
+        {
+            get { return trumpCard; }
+            private set{ trumpCard = value;}
+        }
 
         /// <summary>
         /// Default Constructor
@@ -134,6 +139,11 @@ namespace GameClient
                 {
                     currentHand.PlayHand.Add(draw);
                     playDeck.RemoveCard(0);
+
+
+                    //  Fire an event signalling that a player's hand has changed
+
+
                     return true;
                 }
                 else

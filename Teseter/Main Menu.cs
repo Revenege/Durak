@@ -7,17 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GameClient; 
+using GameClient;
+using Teseter;
 
 namespace Main_Menu
 {
     public partial class frmMainMenu : Form
     {
+        
+
+
         public frmMainMenu()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Stats the game of Durak
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
             int deckSize = 0;
@@ -71,6 +80,34 @@ namespace Main_Menu
 
                 }
             }
+        }
+
+
+         /// <summary>
+         /// Shows the help information form
+         /// </summary>
+         /// <param name="sender"></param>
+         /// <param name="e"></param>
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            var help = new frmHelp();
+
+            help.Show();
+                
+        }
+
+        /// <summary>
+        /// Shows the about information form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+
+            var about = new frmAbout();
+
+            about.Show();
+            
         }
     }
 }
