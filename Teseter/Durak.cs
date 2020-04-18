@@ -205,6 +205,7 @@ namespace GameClient
 
         /// <summary>
         /// Allows attacker to attack with another card after defender defends
+        /// Not used in this version
         /// </summary>
         /// <param name="attacker"></param>
         public void ThrowIn(Player attacker)
@@ -212,7 +213,10 @@ namespace GameClient
 
 
         }
-
+        /// <summary>
+        /// Draws cards until hand is equal to the max hand size. The max hand size is based on the starting handsize
+        /// Required to be called at the end of each turn
+        /// </summary>
         public void DrawToMax()
         {
             if (playDeck.RemainingCardCount() > 0)
