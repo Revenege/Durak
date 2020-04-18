@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CardGameProject;
 
-namespace GameWindow
+namespace CardBox
 {
     public partial class CardBox: UserControl
     {

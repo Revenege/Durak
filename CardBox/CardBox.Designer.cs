@@ -1,4 +1,4 @@
-﻿namespace GameWindow
+﻿namespace CardBox
 {
     partial class CardBox
     {

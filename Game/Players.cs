@@ -129,6 +129,9 @@ namespace GameClient
             return PlayerList[CurrentPlayerNumber];
         }
 
+        /// <summary>
+        /// Skip the current turn
+        /// </summary>
         public static void SkipTurn()
         {
             if (CurrentPlayerNumber == (PlayerList.Count - 1))

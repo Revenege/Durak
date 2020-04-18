@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAbout));
             this.rtxtAboutInfo = new System.Windows.Forms.RichTextBox();
             this.btnExitAbout = new System.Windows.Forms.Button();
+            this.ttpExit = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // rtxtAboutInfo
@@ -57,6 +59,7 @@
             this.btnExitAbout.Size = new System.Drawing.Size(75, 20);
             this.btnExitAbout.TabIndex = 1;
             this.btnExitAbout.Text = "Exit";
+            this.ttpExit.SetToolTip(this.btnExitAbout, "Close this window and return to the menu");
             this.btnExitAbout.UseVisualStyleBackColor = true;
             this.btnExitAbout.Click += new System.EventHandler(this.btnExitAbout_Click);
             // 
@@ -68,6 +71,7 @@
             this.Controls.Add(this.btnExitAbout);
             this.Controls.Add(this.rtxtAboutInfo);
             this.Name = "frmAbout";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About";
             this.ResumeLayout(false);
 
@@ -77,5 +81,6 @@
 
         private System.Windows.Forms.RichTextBox rtxtAboutInfo;
         private System.Windows.Forms.Button btnExitAbout;
+        private System.Windows.Forms.ToolTip ttpExit;
     }
 }

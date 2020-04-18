@@ -208,6 +208,7 @@ namespace GameClient
             {
                 successfulDefend = true;
                 playHand.Remove(selectedCard);
+                Table.InPlay.Add(selectedCard);
                 Table.InPlay.Clear();
             }
             return successfulDefend;

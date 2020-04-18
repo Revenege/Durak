@@ -117,10 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="ttpHelp.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ttpHelp.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="rtxtAboutInfo.Text" xml:space="preserve">
+    <value>
+
+Authors:	Scott Jenkins, Thomas Sinka, Duncan McBryan
+Since: 	April 2020
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; 
+either version 2 of the Lience, or (at your option) any later version.
+
+This program is based on the Russian game Durak ( https://en.wikipedia.org/wiki/Durak ).
+
+This program was created for the intent of being used as a school project for the Durham College ( https://durhamcollege.ca/ ) programming course 
+Object Oriented Programming ( https://durhamcollege.ca/programs-and-courses/courses?subj_code_in=OOP&amp;crse_numb_in=4200&amp;semester_in=SEM4 ).
+Use of this program for acdemic purposes without properly giving credits to the authors will be considered plagiarism 
+( see details about plagiarism: https://guides.library.durhamcollege.ca/citation/academic-integrity-plagiarism#s-lg-box-6455615 ).
+
+
+Card Images References
+===================
+All card face images have been downloaded from the American Contract Bridge League ( http://acbl.mybigcommerce.com/52-playing-cards/ ).
+The back of the card image has been downloaded from  Bicycle  ( https://bicyclecards.com/ ).
+
+Information References
+===================
+All information on the rules of Durak come from Gamblers Bet ( https://www.gamblersbet.com/encyclopedia/rules-durak ).</value>
+  </data>
+  <metadata name="ttpExit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
 </root>

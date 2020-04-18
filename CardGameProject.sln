@@ -5,14 +5,14 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBuilder", "CardGameProject\CardBuilder.csproj", "{B194512C-3809-435A-9C28-80FB4F3B4077}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "Teseter\GameEngine.csproj", "{A30CA545-1D63-4823-868C-08A51CC80389}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "GameWindow\CardBox.csproj", "{60EBF439-B630-450D-B6B0-2D7B5FB0A974}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DE25604E-05D3-4B05-997F-D61992829234}"
 	ProjectSection(SolutionItems) = preProject
 		Bugs.txt = Bugs.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "CardBox\CardBox.csproj", "{60EBF439-B630-450D-B6B0-2D7B5FB0A974}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "Game\GameEngine.csproj", "{A30CA545-1D63-4823-868C-08A51CC80389}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,14 +24,14 @@ Global
 		{B194512C-3809-435A-9C28-80FB4F3B4077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B194512C-3809-435A-9C28-80FB4F3B4077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B194512C-3809-435A-9C28-80FB4F3B4077}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A30CA545-1D63-4823-868C-08A51CC80389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A30CA545-1D63-4823-868C-08A51CC80389}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A30CA545-1D63-4823-868C-08A51CC80389}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A30CA545-1D63-4823-868C-08A51CC80389}.Release|Any CPU.Build.0 = Release|Any CPU
 		{60EBF439-B630-450D-B6B0-2D7B5FB0A974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60EBF439-B630-450D-B6B0-2D7B5FB0A974}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60EBF439-B630-450D-B6B0-2D7B5FB0A974}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60EBF439-B630-450D-B6B0-2D7B5FB0A974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30CA545-1D63-4823-868C-08A51CC80389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30CA545-1D63-4823-868C-08A51CC80389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30CA545-1D63-4823-868C-08A51CC80389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30CA545-1D63-4823-868C-08A51CC80389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,11 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CardGameProject;
 using GameClient;
-using GameWindow;
 
 namespace Main_Menu
 {
@@ -22,7 +22,6 @@ namespace Main_Menu
 
         private Player player; //  The human player
 
-        private Cards tableCards;   //  Cards currently on the table
 
         /// <summary>
         /// The amount, in points, that CardBox controls are enlarged when hovered over. 
@@ -50,35 +49,20 @@ namespace Main_Menu
             game.SetPlayers(players);
 
             //  Get reference to the game table (Card container)
-            tableCards = game.Table.InPlay;
 
+            game.Table.InPlay.CardsChanged += hand_CardChanged;
             //lblTrump.Text = game.TrumpSuit();
             cbTrump.Card = game.TrumpCard;
 
             player = Players.GetHumanPlayer();
             player.PlayHand.CardsChanged += hand_CardChanged;
-            tableCards.CardsChanged += hand_CardChanged;
-
             //Dealing the hands
             game.DealHands();
             attacker = Players.GetCurrentPlayer();   //  Determine attacker
             defender = Players.PeakNextPlayer();     //  Determine defender
 
             lblDeckSize.Text = game.GetCardsRemaining().ToString();
-            //UpdateHand(player.PlayHand);
-            //RealignCards(pnlPlayerHand);
 
-            //If the AI is going first, then  set the player to defend, and the AI takes its turn
-            if (Players.GetCurrentPlayer().IsAi)
-            {
-                playState = 'D';
-                AiTurn('A');
-            }
-            else
-            {
-                playState = 'A';
-                //lblTempOutput.Text = game.ShowHand(attacker);
-            }
         }
 
         /// <summary>
@@ -101,7 +85,8 @@ namespace Main_Menu
                 MessageBox.Show("Too bad, you are the Durak!");
                 this.Close();
             }
-
+            game.Table.InPlay.Clear();
+            pnlTable.Controls.Clear();
             //Begin the next Turn by advancing the turn
             attacker = Players.GetNextPlayer();
             defender = Players.PeakNextPlayer();
@@ -128,6 +113,7 @@ namespace Main_Menu
                 //lblTempOutput.Text = game.ShowHand(attacker);
                 playState = 'A';
             }
+           
         }
 
 
@@ -166,6 +152,7 @@ namespace Main_Menu
                         game.TakeCards(defender);
                         Players.SkipTurn();
                     }
+
                     //Determine if someone won
                     game.DetermineWinner(attacker);
                     game.DetermineWinner(defender);
@@ -196,7 +183,7 @@ namespace Main_Menu
                 {
                     //Move to the next defender
                     defender = Players.GetNextPlayer();
-                    //If the defender is an AI, recursively call the program
+                    //If the defender is an AI, recursively call the function
                     if (defender.IsAi)
                     {
                         AiTurn('D');
@@ -204,7 +191,7 @@ namespace Main_Menu
                     else//Otherwise, Player defends
                     {
                         //btnAccept.Enabled = true;
-                        DisplayOutput("You must Defend1");
+                        DisplayOutput("You must Defend");
                         //lblTempOutput.Text = game.ShowHand(defender);
                         playState = 'D';
                     }
@@ -260,71 +247,84 @@ namespace Main_Menu
         {
 
 
-            ////get user input
-            //String input = txtTest.Text;
-            ////check for validity of input
-            //bool valid = Int32.TryParse(input, out int selected);
-
             //If player is attacking
             if (playState == 'A')
             {
                 game.Attack(attacker, selectedCard);
+                DisplayOutput(attacker.Name + " Attacks with" + selectedCard.ToString());
                 AiTurn('D');
             }
             else if (playState == 'D')//If the player is defedning
             {
-                //Check if the player is able to play
-                int playableCards = 0;
-                for (int i = 0; i < defender.PlayHand.Count; i++)
+                //If the play was legal, play it.
+                if (selectedCard > game.Table.LastPlayed())
                 {
-                    if (defender.PlayHand[i] > game.Table.LastPlayed())
-                    {
-                        playableCards++;
-                    }
-                }
-                //If they are, defend
-                if (playableCards > 0)
-                {
-                    if (selectedCard > game.Table.LastPlayed())
-                    {
-                        DisplayOutput(defender.Name + " Defends with " + selectedCard.ToString());
-                        game.Defend(defender, selectedCard);
-                    }
-                }
-                else//ignore input, pick up the card and skip the turn
-                {
-                    DisplayOutput(defender.Name + " Was unable to defend");
-                    game.TakeCards(defender);
-                    Players.SkipTurn();
-                }
-                //Check for winners
-                game.DetermineWinner(attacker);
-                game.DetermineWinner(defender);
+                    DisplayOutput(defender.Name + " Defends with " + selectedCard.ToString());
+                    game.Defend(defender, selectedCard);
+                    //Check for winners
+                    game.DetermineWinner(attacker);
+                    game.DetermineWinner(defender);
 
-                //Determine if he AI attacker has won
-                if (attacker.WinStatus == true)
-                {
-                    MessageBox.Show(attacker.Name + " is Not the durak");
+                    //Determine if he AI attacker has won
+                    if (attacker.WinStatus == true)
+                    {
+                        MessageBox.Show(attacker.Name + " is Not the durak");
+                    }
+                    //Determine if the defender has won
+                    if (defender.WinStatus == true)
+                    {
+                        MessageBox.Show("Congratulation, you are not the Durak!");
+                        this.Close();
+                    }
+                    EndTurn();
                 }
-                //Determine if the defender has won
-                if (defender.WinStatus == true)
-                {
-                    MessageBox.Show("Congratulation, you are not the Durak!");
-                    this.Close();
-                }
-                EndTurn();
+
             }
         }
 
+
+        public void skipTurn()
+        {
+            Players.SkipTurn();
+            //Check for winners
+            game.DetermineWinner(attacker);
+            game.DetermineWinner(defender);
+
+            //Determine if he AI attacker has won
+            if (attacker.WinStatus == true)
+            {
+                MessageBox.Show(attacker.Name + " is Not the durak");
+            }
+            //Determine if the defender has won
+            if (defender.WinStatus == true)
+            {
+                MessageBox.Show("Congratulation, you are not the Durak!");
+                this.Close();
+            }
+            EndTurn();
+
+        }
+
+        /// <summary>
+        /// Wait until the form appears before beginning the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void frmGameWindow_Shown(object sender, EventArgs e)
         {
-
+            Application.DoEvents();
+            //If the AI is going first, then  set the player to defend, and the AI takes its turn
+            if (Players.GetCurrentPlayer().IsAi)
+            {
+                playState = 'D';
+                AiTurn('A');
+            }
+            else
+            {
+                playState = 'A';
+            }
         }
 
-        private void frmGameWindow_Load(object sender, EventArgs e)
-        {
-
-        }
 
         /*
         * btnHelp_Click - Displays the help information on how to play Durak
@@ -378,17 +378,17 @@ namespace Main_Menu
             {
                 pnlPlayerHand.Controls.Clear();
             }
-            else if (hand == tableCards)
+            else if (hand == game.Table.InPlay)
             {
                 pnlTable.Controls.Clear();
             }
 
-            CardBox aCardBox;
+            CardBox.CardBox aCardBox;
 
             //  Add each card to play area.
             foreach (Card card in hand)
             {
-                aCardBox = new CardBox(card);
+                aCardBox = new CardBox.CardBox(card);
                 aCardBox.Click += CardBoxClick;
 
                 if (hand == player.PlayHand)
@@ -396,10 +396,11 @@ namespace Main_Menu
                     System.Diagnostics.Debug.WriteLine("Adding " + card.ToString() + " to player's panel");
                     pnlPlayerHand.Controls.Add(aCardBox);
                 }
-                else if (hand == tableCards)
+                else if (hand == game.Table.InPlay)
                 {
                     System.Diagnostics.Debug.WriteLine("Adding " + card.ToString() + " to table panel");
                     pnlTable.Controls.Add(aCardBox);
+
                 }
             }
         }
@@ -471,11 +472,15 @@ namespace Main_Menu
         /// </summary>
         void hand_CardChanged(string message, Cards sender)
         {
-            if (sender == tableCards)
+            if (sender == game.Table.InPlay)
             {
                 System.Diagnostics.Debug.WriteLine(message + " to the table.");
-                UpdateHand(tableCards);
+                UpdateHand(game.Table.InPlay);
                 RealignCards(pnlTable);
+                //Forces the UI to update so i dont need to learn multithreading 
+                Application.DoEvents();
+                //Pause the exectuion for 1 second whenever the board updates
+                System.Threading.Thread.Sleep(1000);
                 //  todo: add to table visually
             }
             else if (sender == player.PlayHand)
@@ -483,6 +488,8 @@ namespace Main_Menu
                 System.Diagnostics.Debug.WriteLine(message + " to " + player.Name + "'s hand.");
                 UpdateHand(player.PlayHand);
                 RealignCards(pnlPlayerHand);
+                Application.DoEvents();
+
             }
         }
 
@@ -494,7 +501,7 @@ namespace Main_Menu
         void CardBoxClick(object sender, EventArgs e)
         {
             //  Convert sender to a CardBox
-            CardBox aCardBox = sender as CardBox;
+            CardBox.CardBox aCardBox = sender as CardBox.CardBox;
 
             if (aCardBox != null)
             {
@@ -529,6 +536,20 @@ namespace Main_Menu
                 txtCardPlayed.AppendText(Environment.NewLine);
                 txtCardPlayed.AppendText(Environment.NewLine);
             }
+        }
+
+        private void btnSkip_Click(object sender, EventArgs e)
+        {
+            //Ensure its the players turn
+            if (playState == 'D')
+            {
+                DisplayOutput(player.Name + " Was unable to defend");
+                System.Diagnostics.Debug.WriteLine("Player skips turn");
+                player.PlayHand.Add(game.Table.LastPlayed());
+                skipTurn();
+
+            }
+
         }
     }
 }
